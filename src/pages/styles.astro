@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Placeholder style guide. Colors and fonts are TBD (see CLAUDE.md > Brand);
+// update the samples here once the brand tokens are defined in global.css.
+const headings = [
+	{ className: 'text-5xl font-bold', label: 'Heading 1' },
+	{ className: 'text-4xl font-bold', label: 'Heading 2' },
+	{ className: 'text-3xl font-semibold', label: 'Heading 3' },
+	{ className: 'text-2xl font-semibold', label: 'Heading 4' },
+];
+
+const swatches = [
+	{ name: 'Neutral base', value: 'TBD' },
+	{ name: 'Accent', value: 'TBD' },
+];
+---
+
+<Layout title="Style guide · Basilpot">
+	<main class="mx-auto max-w-5xl space-y-16 px-4 py-16">
+		<header class="space-y-2">
+			<h1 class="text-4xl font-bold">Style guide</h1>
+			<p>Internal reference for type and color. Brand tokens are not defined yet.</p>
+		</header>
+
+		<section aria-labelledby="type-heading" class="space-y-6">
+			<h2 id="type-heading" class="text-sm font-semibold uppercase tracking-wide">Typography</h2>
+			{
+				// Samples are plain text so the page keeps a single h1 and a clean outline.
+				headings.map(({ className, label }) => <p class={className}>{label}</p>)
+			}
+			<p class="max-w-prose text-lg">
+				Body large. We brainstorm, plan, design, build, and scale businesses, from
+				planning and design to development, deployment, and support.
+			</p>
+			<p class="max-w-prose">
+				Body. Clarity, craftsmanship, long-term value. This paragraph shows the default
+				body size and line length.
+			</p>
+			<p class="text-sm">Small. Captions and meta text.</p>
+		</section>
+
+		<section aria-labelledby="color-heading" class="space-y-6">
+			<h2 id="color-heading" class="text-sm font-semibold uppercase tracking-wide">Colors</h2>
+			<ul class="grid gap-4 sm:grid-cols-2">
+				{
+					swatches.map(({ name, value }) => (
+						<li class="border border-dashed p-6">
+							<p class="font-semibold">{name}</p>
+							<p class="text-sm">{value}</p>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+	</main>
+</Layout>
