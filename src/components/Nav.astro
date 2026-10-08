@@ -1,0 +1,138 @@
+---
+// Site header (spec §4 Home.1): logo left, links + CTA right.
+// Sticky; gains a Paper background and border once the page scrolls.
+// Mobile: full-screen menu in a native <dialog> (focus trap + Esc built in).
+import Logo from './Logo.astro';
+import Button from './Button.astro';
+import { mainNav, primaryCta, site } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+
+<div id="nav-sentinel" class="pointer-events-none absolute inset-x-0 top-0 h-2" aria-hidden="true"></div>
+
+<header
+	id="site-header"
+	class="sticky top-0 z-40 border-b border-transparent transition-[background-color,border-color] duration-300 ease-out-soft data-[scrolled]:border-line data-[scrolled]:bg-bg"
+>
+	<nav aria-label="Main" class="container-site flex h-16 items-center justify-between gap-6 md:h-20">
+		<a href="/" class="-m-2 rounded-sm p-2" aria-label={`${site.name} home`}>
+			<Logo class="h-6 md:h-7" label="" />
+		</a>
+
+		<div class="hidden items-center gap-8 md:flex">
+			<ul class="flex items-center gap-7">
+				{
+					mainNav.map(({ label, href }) => (
+						<li>
+							<a
+								href={href}
+								aria-current={isCurrent(href) ? 'page' : undefined}
+								class="text-[0.9375rem] text-muted transition-colors hover:text-fg aria-[current=page]:text-fg"
+							>
+								{label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+			<Button href={primaryCta.href} class="min-h-10 px-5">{primaryCta.label}</Button>
+		</div>
+
+		<button
+			type="button"
+			class="-mr-2 inline-flex size-11 items-center justify-center rounded-sm md:hidden"
+			aria-controls="mobile-menu"
+			aria-expanded="false"
+			data-menu-open
+		>
+			<span class="sr-only">Open menu</span>
+			<svg class="size-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+				<path d="M4 8h16M4 16h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+			</svg>
+		</button>
+	</nav>
+</header>
+
+<dialog
+	id="mobile-menu"
+	aria-label="Menu"
+	class="m-0 h-dvh max-h-none w-full max-w-none bg-bg p-0 text-fg backdrop:bg-transparent md:hidden"
+>
+	<div class="container-site flex h-full flex-col">
+		<div class="flex h-16 items-center justify-between">
+			<a href="/" class="-m-2 rounded-sm p-2" aria-label={`${site.name} home`}>
+				<Logo class="h-6" label="" />
+			</a>
+			<button
+				type="button"
+				class="-mr-2 inline-flex size-11 items-center justify-center rounded-sm"
+				autofocus
+				data-menu-close
+			>
+				<span class="sr-only">Close menu</span>
+				<svg class="size-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+				</svg>
+			</button>
+		</div>
+
+		<ul class="mt-10 flex flex-col">
+			{
+				mainNav.map(({ label, href }, i) => (
+					<li class="border-b border-line">
+						<a
+							href={href}
+							aria-current={isCurrent(href) ? 'page' : undefined}
+							class="flex items-baseline gap-4 py-5 text-h2 font-semibold"
+						>
+							<span class="label text-accent">{String(i + 1).padStart(2, '0')}</span>
+							{label}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+
+		<div class="mt-auto space-y-6 pb-10">
+			<Button href={primaryCta.href} class="w-full">{primaryCta.label}</Button>
+			<p class="label text-center text-muted">{site.location}</p>
+		</div>
+	</div>
+</dialog>
+
+<script>
+	// Header background on scroll: observe a sentinel at the top of the page
+	// instead of listening to every scroll event.
+	const header = document.getElementById('site-header');
+	const sentinel = document.getElementById('nav-sentinel');
+	if (header && sentinel) {
+		new IntersectionObserver(([entry]) => {
+			header.toggleAttribute('data-scrolled', !entry.isIntersecting);
+		}).observe(sentinel);
+	}
+
+	// Mobile menu.
+	const menu = document.getElementById('mobile-menu') as HTMLDialogElement | null;
+	const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+	const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+
+	if (menu && openBtn) {
+		openBtn.addEventListener('click', () => {
+			menu.showModal();
+			openBtn.setAttribute('aria-expanded', 'true');
+		});
+		closeBtn?.addEventListener('click', () => menu.close());
+		menu.addEventListener('close', () => {
+			openBtn.setAttribute('aria-expanded', 'false');
+			openBtn.focus();
+		});
+		// Close when a link is followed (also covers same-page anchors).
+		menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.close()));
+		// Close if the viewport grows past the mobile breakpoint.
+		matchMedia('(min-width: 48rem)').addEventListener('change', (e) => {
+			if (e.matches && menu.open) menu.close();
+		});
+	}
+</script>

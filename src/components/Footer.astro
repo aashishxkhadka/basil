@@ -1,0 +1,78 @@
+---
+// Site footer (spec §4 Home.10): reversed logo, tagline, page + product
+// links, contact, socials, "Made in Pokhara, Nepal", © year.
+import Logo from './Logo.astro';
+import { footerNav, site, socials } from '../data/site';
+import { products } from '../data/products';
+
+const year = new Date().getFullYear();
+const linkClass = 'text-muted transition-colors hover:text-fg';
+---
+
+<footer data-tone="ink" class="pt-[clamp(4rem,3rem+4vw,7rem)] pb-10">
+	<div class="container-site">
+		<div class="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-12 md:gap-8">
+			<div class="col-span-2 md:col-span-5">
+				<a href="/" class="-m-2 inline-block rounded-sm p-2" aria-label={`${site.name} home`}>
+					<Logo class="h-8 md:h-9" label="" />
+				</a>
+				<p class="mt-6 max-w-xs text-h3 font-semibold">{site.tagline}</p>
+			</div>
+
+			<nav aria-label="Footer" class="md:col-span-2">
+				<h2 class="label text-accent">Pages</h2>
+				<ul class="mt-5 space-y-3">
+					{footerNav.map(({ label, href }) => (
+						<li><a href={href} class={linkClass}>{label}</a></li>
+					))}
+				</ul>
+			</nav>
+
+			<div class="md:col-span-3">
+				<h2 class="label text-accent">Products</h2>
+				<ul class="mt-5 space-y-3">
+					{products.map(({ name, url }) => (
+						<li>
+							{url ? (
+								<a href={url} class={linkClass} target="_blank" rel="noopener noreferrer">
+									{name}<span class="sr-only"> (opens in a new tab)</span>
+								</a>
+							) : (
+								<span class="text-muted">{name}</span>
+							)}
+						</li>
+					))}
+				</ul>
+			</div>
+
+			<div class="col-span-2 md:col-span-2">
+				<h2 class="label text-accent">Contact</h2>
+				<ul class="mt-5 space-y-3">
+					<li>
+						{site.email ? (
+							<a href={`mailto:${site.email}`} class={linkClass}>{site.email}</a>
+						) : (
+							<span class="label border border-dashed border-line px-2 py-1 text-muted">TODO: email</span>
+						)}
+					</li>
+					{socials.map(({ label, href }) => (
+						<li>
+							<a href={href} class={linkClass} target="_blank" rel="noopener noreferrer">
+								{label}<span class="sr-only"> (opens in a new tab)</span>
+							</a>
+						</li>
+					))}
+					{socials.length === 0 && (
+						<li><span class="label border border-dashed border-line px-2 py-1 text-muted">TODO: socials</span></li>
+					)}
+					<li class="text-muted">{site.location}</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="mt-16 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+			<p class="label text-muted">© {year} {site.name}</p>
+			<p class="label text-muted">Made in {site.location}</p>
+		</div>
+	</div>
+</footer>

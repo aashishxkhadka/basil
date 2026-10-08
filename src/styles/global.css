@@ -201,3 +201,8 @@
 	margin-inline: auto;
 	padding-inline: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
 }
+
+/* Lock page scroll while the mobile menu (modal dialog) is open. */
+html:has(dialog[open]) {
+	overflow: hidden;
+}

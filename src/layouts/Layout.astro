@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
 	title?: string;
@@ -18,13 +20,24 @@ const {
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={description} />
+		<!-- TODO (step 9): replace Astro's default favicons with brand icons. -->
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<slot name="head" />
 	</head>
-	<body>
-		<slot />
+	<body class="flex min-h-dvh flex-col">
+		<a
+			href="#main"
+			class="sr-only z-50 rounded-pill bg-(--btn-bg) px-5 py-3 text-(--btn-fg) focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+		>
+			Skip to content
+		</a>
+		<Nav />
+		<main id="main" class="flex-1">
+			<slot />
+		</main>
+		<Footer />
 	</body>
 </html>
