@@ -50,6 +50,19 @@ URL TBD), HQ Nepal (hqnepal.com).
 - Build one section at a time, wait for my feedback before the next
 - Commit after each finished step (build order in the spec)
 
+## Owner direction (from build sessions)
+- Bar: international, award-level studio site that stands out globally. It is a
+  featured project clients will see. No basic or template-looking sections.
+- Design and copy are open to Claude's judgement within the brand rules above.
+  Still never invent clients, results, testimonials or stats.
+- Stock images: allowed only if a section truly needs one; prefer brand
+  graphics and illustrations drawn in code.
+- Don't block on missing brand assets; use the wordmark and spec tokens.
+- Check alignment across the whole section (shared left/right edges, vertical
+  centring, related items grouped), not just the element that was flagged.
+  Verify at 375 / 768 / 1024 / 1280 / 1920 widths before showing.
+- Explain things in simple, plain English with clear numbered steps.
+
 ## Progress (updated 2026-10-08)
 Build order is in the spec (§9). Done and pushed:
 1. Brand tokens, fonts, global styles, Logo/Button/Section (`/styles` = token preview)
