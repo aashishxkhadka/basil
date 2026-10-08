@@ -50,6 +50,32 @@ URL TBD), HQ Nepal (hqnepal.com).
 - Build one section at a time, wait for my feedback before the next
 - Commit after each finished step (build order in the spec)
 
+## Progress (updated 2026-10-08)
+Build order is in the spec (§9). Done and pushed:
+1. Brand tokens, fonts, global styles, Logo/Button/Section (`/styles` = token preview)
+2. Nav + Footer
+3. Home page (editorial redesign approved by owner: mega headline, marquee,
+   scroll-lit statement, service index, product bento, world clocks, mega CTA)
+
+**Next: step 4, Services page**, in the same visual language as Home.
+Then Products, Work (content collection), About, Contact, 404/SEO, QA pass.
+
+Open TODOs waiting on the owner (never invent these):
+- Contact email and social links (`src/data/site.ts`)
+- Product statuses Live/Beta/Coming soon (`src/data/products.ts`)
+- Launchbunch and Tripflow URLs
+- Real case studies (`src/data/work.ts`; "Selected work" stays hidden while empty)
+- Real client logos (proof strip was removed until they exist)
+- Brand favicons (still Astro defaults)
+
+Deployment:
+- Repo: github.com/aashishxkhadka/basil (public). Push over SSH works from this Mac.
+- GitHub Pages via `.github/workflows/deploy.yml`; owner still needs to set
+  Settings → Pages → Source: GitHub Actions. Live URL: aashishxkhadka.github.io/basil/
+- `base: '/basil'` in astro.config.mjs. Always link internal paths through
+  `withBase()` from `src/lib/url.ts`. Local dev URL: http://localhost:4321/basil/
+- Owner's network sometimes resets the first request to github.com; just retry.
+
 ## Development
 
 When starting the dev server, use background mode:
