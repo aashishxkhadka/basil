@@ -70,7 +70,12 @@ const linkClass = 'text-muted transition-colors hover:text-fg';
 			</div>
 		</div>
 
-		<div class="mt-16 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+		<!-- Oversized wordmark sign-off. -->
+		<div class="mt-[clamp(4rem,3rem+5vw,8rem)]" aria-hidden="true">
+			<Logo class="h-auto w-full" label="" />
+		</div>
+
+		<div class="mt-10 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
 			<p class="label text-muted">© {year} {site.name}</p>
 			<p class="label text-muted">Made in {site.location}</p>
 		</div>

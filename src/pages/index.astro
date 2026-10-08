@@ -1,12 +1,109 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Section from '../components/Section.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Leaf from '../components/Leaf.astro';
+import StepList from '../components/StepList.astro';
+import CaseStudyCard from '../components/CaseStudyCard.astro';
+import CTABand from '../components/CTABand.astro';
+import Hero from '../components/home/Hero.astro';
+import Marquee from '../components/home/Marquee.astro';
+import Statement from '../components/home/Statement.astro';
+import ServiceIndex from '../components/home/ServiceIndex.astro';
+import ProductBento from '../components/home/ProductBento.astro';
+import WorldClock from '../components/home/WorldClock.astro';
+import { steps, values } from '../data/home';
+import { featuredWork } from '../data/work';
 ---
 
-<Layout>
-	<!-- TODO (step 3): replace with Hero and home sections. Tall on purpose so the sticky nav can be tested. -->
-	<Section class="min-h-[150vh]">
-		<h1 class="text-h1">Basilpot</h1>
-		<p class="mt-4 text-lead text-muted">Home sections arrive in step 3.</p>
+<Layout
+	title="Basilpot · Ideas, grown into products"
+	description="Basilpot is an idea-to-growth studio from Pokhara, Nepal. Strategy, design, engineering and AI automation for teams worldwide."
+>
+	<Hero />
+	<Marquee />
+	<Statement />
+
+	<!-- How we work -->
+	<Section aria-labelledby="process-title" class="border-t border-line">
+		<SectionHeading
+			id="process-title"
+			eyebrow="How we work"
+			title="From idea to growth, in five steps."
+			intro="One team from the first conversation to long-term support. You always know where things stand."
+		/>
+		<div class="mt-16">
+			<StepList steps={steps} />
+		</div>
 	</Section>
+
+	<!-- Services -->
+	<Section aria-labelledby="services-title" class="border-t border-line">
+		<SectionHeading
+			id="services-title"
+			eyebrow="Services"
+			title="Everything you need to launch and grow."
+			action={{ label: 'All services', href: '/services' }}
+		/>
+		<div class="mt-14">
+			<ServiceIndex />
+		</div>
+	</Section>
+
+	<!-- Products (Ink, Mint accents) -->
+	<Section tone="ink" class="relative isolate overflow-hidden" aria-labelledby="products-title">
+		<div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+			<div class="absolute inset-0 bg-glow"></div>
+			<div class="absolute inset-0 bg-grid"></div>
+		</div>
+		<SectionHeading
+			id="products-title"
+			eyebrow="Our products"
+			title="We build for clients. We also build our own."
+			intro="Running real products keeps us honest. Every lesson goes straight back into client work."
+			action={{ label: 'All products', href: '/products' }}
+		/>
+		<div class="mt-14">
+			<ProductBento />
+		</div>
+	</Section>
+
+	<!-- Selected work: hidden until real case studies exist (src/data/work.ts). -->
+	{
+		featuredWork.length > 0 && (
+			<Section aria-labelledby="work-title">
+				<SectionHeading id="work-title" eyebrow="Selected work" title="Recent work." action={{ label: 'All work', href: '/work' }} />
+				<div class="mt-14 grid gap-5 md:grid-cols-3">
+					{featuredWork.slice(0, 3).map((work, i) => <CaseStudyCard work={work} index={i} />)}
+				</div>
+			</Section>
+		)
+	}
+
+	<!-- Why Basilpot -->
+	<Section aria-labelledby="why-title">
+		<div class="max-w-3xl" data-reveal>
+			<Eyebrow>Why Basilpot</Eyebrow>
+			<h2 id="why-title" class="mt-5 text-h2">Small team. Clear thinking. Work that lasts.</h2>
+		</div>
+		<ol class="mt-14 grid gap-4 md:grid-cols-3">
+			{
+				values.map(({ title, text }, i) => (
+					<li class="card group relative flex min-h-80 flex-col overflow-hidden p-8" data-reveal style={`--reveal-i:${i}`}>
+						<span aria-hidden="true" class="absolute -top-6 -right-2 text-[9rem] leading-none font-semibold tracking-[-0.06em] text-outline opacity-60 transition-transform duration-700 ease-out-soft group-hover:-translate-y-2">
+							{i + 1}
+						</span>
+						<Leaf class:list={['size-7 text-accent transition-transform duration-700 ease-out-soft group-hover:rotate-45', i === 1 && 'rotate-90', i === 2 && '-rotate-45']} />
+						<h3 class="mt-auto pt-16 text-h3">{title}</h3>
+						<p class="mt-3 text-muted">{text}</p>
+					</li>
+				))
+			}
+		</ol>
+	</Section>
+
+	<WorldClock />
+
+	<CTABand />
 </Layout>

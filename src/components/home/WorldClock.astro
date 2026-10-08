@@ -1,0 +1,57 @@
+---
+// "Built in Nepal, for the world": live local times for client cities.
+import Section from '../Section.astro';
+import Eyebrow from '../Eyebrow.astro';
+import Leaf from '../Leaf.astro';
+import { cities } from '../../data/home';
+
+const offset = (zone: string) => {
+	const part = new Intl.DateTimeFormat('en-US', { timeZone: zone, timeZoneName: 'shortOffset' })
+		.formatToParts(new Date())
+		.find((p) => p.type === 'timeZoneName')?.value;
+	return part?.replace('GMT', 'UTC') ?? '';
+};
+---
+
+<Section aria-labelledby="world-title" class="border-t border-line">
+	<div class="grid gap-14 lg:grid-cols-12 lg:gap-10">
+		<div class="lg:col-span-5" data-reveal>
+			<Eyebrow>Worldwide</Eyebrow>
+			<h2 id="world-title" class="mt-5 text-h2">Built in Nepal. Made for the world.</h2>
+			<p class="mt-6 max-w-md text-lead text-muted">
+				We work with teams across time zones. Clear async updates every day, and calls when your
+				day and ours overlap.
+			</p>
+		</div>
+		<ul class="divide-y divide-line border-y border-line lg:col-span-7">
+			{
+				cities.map(({ city, zone, home }, i) => (
+					<li class="grid grid-cols-[1fr_auto] items-center gap-4 py-6" data-clock-day="true" data-reveal style={`--reveal-i:${i}`}>
+						<div class="flex items-center gap-4">
+							<span class="relative size-2.5 rounded-full border border-accent in-data-[clock-day=true]:bg-accent" aria-hidden="true" />
+							<div>
+								<p class="flex items-center gap-2 text-h3">
+									{city}
+									{home && <Leaf class="size-4 text-accent" />}
+								</p>
+								<p class="label mt-1 text-muted">
+									{home ? 'Studio' : 'Client hours'} · <span data-clock-offset={zone}>{offset(zone)}</span>
+								</p>
+							</div>
+						</div>
+						<time
+							data-clock-zone={zone}
+							class="font-mono text-[clamp(2rem,1.5rem+2vw,3.25rem)] leading-none tracking-tight tabular-nums"
+						>
+							--:--
+						</time>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</Section>
+
+<script>
+	import '../../scripts/clock';
+</script>

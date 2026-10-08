@@ -1,0 +1,52 @@
+---
+// Bento grid of Basilpot's own products, each with an illustrated preview.
+import ProductVisual from '../ProductVisual.astro';
+import { products } from '../../data/products';
+
+// Two wide cards on top, three below (desktop).
+const spans = ['lg:col-span-3', 'lg:col-span-3', 'lg:col-span-2', 'lg:col-span-2', 'lg:col-span-2'];
+---
+
+<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
+	{
+		products.map((product, i) => {
+			const host = product.url ? new URL(product.url).host : undefined;
+			const wide = i < 2;
+			return (
+				<article class:list={['card group flex flex-col overflow-hidden', spans[i], i === 4 && 'md:col-span-2 lg:col-span-2']} data-reveal style={`--reveal-i:${i % 3}`}>
+					<div class:list={['relative overflow-hidden border-b border-line', wide ? 'aspect-[16/10]' : 'aspect-[4/3]']}>
+						<div class="absolute inset-0 bg-glow opacity-80" />
+						<div class="absolute inset-0 bg-grid [mask-image:none] opacity-60" />
+						<ProductVisual slug={product.slug} />
+					</div>
+					<div class="flex flex-1 flex-col p-6 sm:p-7">
+						<div class="flex items-start justify-between gap-4">
+							<h3 class="text-h3">
+								{product.url ? (
+									<a href={product.url} target="_blank" rel="noopener noreferrer" class="after:absolute after:inset-0 after:rounded-md focus-visible:outline-none">
+										{product.name}
+										<span class="sr-only"> (opens in a new tab)</span>
+									</a>
+								) : (
+									product.name
+								)}
+							</h3>
+							{product.status && (
+								<span class="label shrink-0 rounded-pill border border-accent/40 px-2.5 py-1 text-accent">{product.status}</span>
+							)}
+						</div>
+						<p class="mt-2 text-muted">{product.description}</p>
+						{host && (
+							<p class="label mt-auto inline-flex items-center gap-2 pt-6 text-accent" aria-hidden="true">
+								{host}
+								<svg class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 16 16" fill="none">
+									<path d="M5 11l6-6M6 5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+								</svg>
+							</p>
+						)}
+					</div>
+				</article>
+			);
+		})
+	}
+</div>

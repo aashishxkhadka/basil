@@ -30,7 +30,11 @@ URL TBD), HQ Nepal (hqnepal.com).
 - Logo: the wordmark (`brand/logos/svg/basilpot-wordmark*.svg`, inlined in
   `src/components/Logo.astro`). Ink + Basil leaf on light, Paper + Mint leaf
   on dark. Never stretch, recolour or add effects.
-- Motifs: leaf, circle, stem from the logo, as subtle accents only.
+- Motifs: leaf, circle, stem from the logo (`Leaf.astro`), as subtle accents.
+- Surfaces (approved 2026-10-08): brand-green gradients only (Basil → Mint),
+  always structured: rings, fine grid (`bg-grid`), soft top glow (`bg-glow`),
+  grain (`bg-grain`), gradient hairlines on cards (`card`), `text-gradient`
+  on one word max. No free-floating blobs, no other hues.
 - Voice: short sentences, plain words, confident not salesy. No buzzwords.
 - Never: stock illustrations, gradient blobs, purple-blue gradients,
   glassmorphism, generic SaaS template layouts, emoji in UI.

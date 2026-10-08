@@ -1,0 +1,46 @@
+---
+// Services as an editorial index: big rows that fill with Basil on hover.
+import { services } from '../../data/services';
+---
+
+<ul class="border-t border-line">
+	{
+		services.map((service, i) => (
+			<li class="group relative isolate overflow-hidden border-b border-line" data-reveal style={`--reveal-i:${i}`}>
+				<span
+					aria-hidden="true"
+					class="absolute inset-0 -z-10 origin-bottom scale-y-0 bg-basil transition-transform duration-500 ease-out-soft group-hover:scale-y-100 group-has-[a:focus-visible]:scale-y-100"
+				/>
+				<a
+					href={service.href}
+					class="grid gap-x-6 gap-y-5 px-1 py-9 transition-colors duration-500 group-hover:text-paper focus-visible:outline-none md:grid-cols-12 md:items-center md:px-6 md:py-12 group-has-[a:focus-visible]:text-paper"
+				>
+					<span class="label text-muted transition-colors duration-500 group-hover:text-mint md:col-span-1">
+						{String(i + 1).padStart(2, '0')}
+					</span>
+					<h3 class="text-[clamp(2.4rem,1.4rem+4.2vw,5.5rem)] leading-[0.95] font-semibold tracking-[-0.045em] md:col-span-6">
+						{service.title}
+					</h3>
+					<p class="max-w-sm text-muted transition-colors duration-500 group-hover:text-paper/80 md:col-span-4">
+						{service.promise}
+					</p>
+					<span
+						aria-hidden="true"
+						class="hidden size-14 items-center justify-center justify-self-end rounded-full border border-line transition-all duration-500 group-hover:-rotate-45 group-hover:border-mint group-hover:bg-mint group-hover:text-ink md:col-span-1 md:flex"
+					>
+						<svg class="size-5" viewBox="0 0 16 16" fill="none">
+							<path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+					</span>
+					<ul class="flex flex-wrap gap-2 md:col-span-11 md:col-start-2">
+						{service.items.map((item) => (
+							<li class="label rounded-pill border border-line px-3 py-1.5 text-muted transition-colors duration-500 group-hover:border-paper/30 group-hover:text-paper/85">
+								{item}
+							</li>
+						))}
+					</ul>
+				</a>
+			</li>
+		))
+	}
+</ul>

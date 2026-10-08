@@ -1,0 +1,65 @@
+---
+// Hero visual: the brand leaf inside a gradient "seed", with rings and the
+// five process steps orbiting it. Built from logo shapes only (leaf, circle).
+// Decorative; the same steps are listed in text further down the page.
+interface Props {
+	class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<svg viewBox="-80 -20 680 560" class:list={['h-auto w-full overflow-visible', className]} aria-hidden="true" focusable="false">
+	<defs>
+		<linearGradient id="seed-fill" x1="0" y1="0" x2="1" y2="1">
+			<stop offset="0" stop-color="var(--grad-a)"></stop>
+			<stop offset="1" stop-color="var(--grad-b)"></stop>
+		</linearGradient>
+		<radialGradient id="seed-halo">
+			<stop offset="0.45" stop-color="var(--glow)"></stop>
+			<stop offset="1" stop-color="var(--glow)" stop-opacity="0"></stop>
+		</radialGradient>
+	</defs>
+
+	<circle cx="260" cy="260" r="250" fill="url(#seed-halo)"></circle>
+
+	<!-- Slowly turning dashed orbit. -->
+	<g class="origin-[260px_260px] motion-safe:animate-[spin-slow_90s_linear_infinite]">
+		<circle cx="260" cy="260" r="236" fill="none" class="stroke-line" stroke-width="1.5" stroke-dasharray="2 9" stroke-linecap="round"></circle>
+	</g>
+	<circle cx="260" cy="260" r="172" fill="none" class="stroke-line" stroke-width="1"></circle>
+
+	<!-- Seed + leaf. -->
+	<circle cx="260" cy="260" r="116" fill="url(#seed-fill)"></circle>
+	<circle cx="260" cy="260" r="116" fill="none" class="stroke-bg" stroke-opacity="0.25" stroke-width="1"></circle>
+	<path
+		class="fill-bg"
+		transform="translate(260 260) scale(0.5) translate(-1846 739)"
+		d="M1969.06 -864.19A229.5 229.5 0 0 0 1720.95 -613.99L1722.86 -613.81A229.5 229.5 0 0 0 1970.97 -864.01Z"
+	></path>
+
+		<g>
+			<circle cx="260.0" cy="24.0" r="7" class="fill-bg stroke-(--grad-a)" stroke-width="1.5"></circle>
+			<circle cx="260.0" cy="24.0" r="2.5" class="fill-(--grad-a)"></circle>
+			<text x="260.0" y="2.0" text-anchor="middle" class="fill-muted font-mono max-sm:hidden text-[20px] tracking-[0.05em] uppercase">01 Idea</text>
+		</g>
+		<g>
+			<circle cx="484.4" cy="187.1" r="7" class="fill-bg stroke-(--grad-a)" stroke-width="1.5"></circle>
+			<circle cx="484.4" cy="187.1" r="2.5" class="fill-(--grad-a)"></circle>
+			<text x="502.4" y="192.1" text-anchor="start" class="fill-muted font-mono max-sm:hidden text-[20px] tracking-[0.05em] uppercase">02 Plan</text>
+		</g>
+		<g>
+			<circle cx="398.7" cy="450.9" r="7" class="fill-bg stroke-(--grad-a)" stroke-width="1.5"></circle>
+			<circle cx="398.7" cy="450.9" r="2.5" class="fill-(--grad-a)"></circle>
+			<text x="414.7" y="474.9" text-anchor="start" class="fill-muted font-mono max-sm:hidden text-[20px] tracking-[0.05em] uppercase">03 Design</text>
+		</g>
+		<g>
+			<circle cx="121.3" cy="450.9" r="7" class="fill-bg stroke-(--grad-a)" stroke-width="1.5"></circle>
+			<circle cx="121.3" cy="450.9" r="2.5" class="fill-(--grad-a)"></circle>
+			<text x="105.3" y="474.9" text-anchor="end" class="fill-muted font-mono max-sm:hidden text-[20px] tracking-[0.05em] uppercase">04 Build</text>
+		</g>
+		<g>
+			<circle cx="35.6" cy="187.1" r="7" class="fill-bg stroke-(--grad-a)" stroke-width="1.5"></circle>
+			<circle cx="35.6" cy="187.1" r="2.5" class="fill-(--grad-a)"></circle>
+			<text x="17.6" y="192.1" text-anchor="end" class="fill-muted font-mono max-sm:hidden text-[20px] tracking-[0.05em] uppercase">05 Grow</text>
+		</g>
+</svg>

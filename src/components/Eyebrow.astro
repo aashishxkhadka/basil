@@ -1,0 +1,14 @@
+---
+// Small Geist Mono label above headings, marked with the brand leaf.
+import Leaf from './Leaf.astro';
+
+interface Props {
+	class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<p class:list={['label inline-flex items-center gap-2 text-accent', className]}>
+	<Leaf class="size-3" />
+	<span><slot /></span>
+</p>

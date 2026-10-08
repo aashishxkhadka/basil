@@ -1,0 +1,129 @@
+---
+// Abstract UI illustrations for each product, drawn with HTML/CSS/SVG in
+// brand colours. Not screenshots; decorative only.
+import type { Product } from '../data/products';
+
+interface Props {
+	slug: Product['slug'];
+}
+const { slug } = Astro.props;
+const bar = 'h-2 rounded-pill bg-fg/12';
+---
+
+<div class="pointer-events-none absolute inset-0 flex items-center justify-center p-8" aria-hidden="true">
+	{
+		slug === 'links' && (
+			<div class="w-44 rounded-[1.75rem] border border-line bg-bg p-4 pt-6 shadow-2xl shadow-black/40 transition-transform duration-700 ease-out-soft group-hover:-translate-y-2">
+				<div class="mx-auto size-11 rounded-full bg-linear-135 from-(--grad-a) to-(--grad-b)" />
+				<div class={`${bar} mx-auto mt-3 w-20`} />
+				<div class={`${bar} mx-auto mt-1.5 w-14 opacity-60`} />
+				<div class="mt-5 space-y-2">
+					<div class="flex h-8 items-center justify-center rounded-pill bg-accent">
+						<div class="h-1.5 w-16 rounded-pill bg-bg/70" />
+					</div>
+					{[0, 1, 2].map(() => (
+						<div class="flex h-8 items-center justify-center rounded-pill border border-line">
+							<div class="h-1.5 w-14 rounded-pill bg-fg/25" />
+						</div>
+					))}
+				</div>
+			</div>
+		)
+	}
+	{
+		slug === 'reviewpot' && (
+			<div class="relative w-72">
+				<div class="absolute inset-x-6 -top-5 h-24 rotate-[-4deg] rounded-md border border-line bg-bg/60" />
+				<div class="relative rounded-md border border-line bg-bg p-5 shadow-2xl shadow-black/40 transition-transform duration-700 ease-out-soft group-hover:-rotate-1">
+					<div class="flex gap-1 text-accent">
+						{[0, 1, 2, 3, 4].map(() => (
+							<svg class="size-4" viewBox="0 0 20 20" fill="currentColor">
+								<path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9z" />
+							</svg>
+						))}
+					</div>
+					<div class="mt-4 space-y-2">
+						<div class={`${bar} w-full`} />
+						<div class={`${bar} w-11/12`} />
+						<div class={`${bar} w-2/3`} />
+					</div>
+					<div class="mt-5 flex items-center gap-3 border-t border-line pt-4">
+						<div class="size-7 rounded-full bg-linear-135 from-(--grad-a) to-(--grad-b)" />
+						<div class={`${bar} w-20`} />
+					</div>
+				</div>
+			</div>
+		)
+	}
+	{
+		slug === 'hqnepal' && (
+			<svg viewBox="0 0 320 200" class="h-full max-h-56 w-full transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]">
+				<defs>
+					<linearGradient id="ridge-a" x1="0" y1="0" x2="0" y2="1">
+						<stop offset="0" stop-color="var(--color-mint)" stop-opacity="0.55" />
+						<stop offset="1" stop-color="var(--color-mint)" stop-opacity="0" />
+					</linearGradient>
+					<linearGradient id="ridge-b" x1="0" y1="0" x2="0" y2="1">
+						<stop offset="0" stop-color="var(--color-basil)" stop-opacity="0.9" />
+						<stop offset="1" stop-color="var(--color-basil)" stop-opacity="0.1" />
+					</linearGradient>
+				</defs>
+				<path d="M0 150 L60 90 L95 118 L150 40 L190 95 L225 70 L320 140 V200 H0Z" fill="url(#ridge-a)" />
+				<path d="M150 40 L162 57 L156 55 L150 62 L144 54 L138 57Z" fill="var(--color-paper)" opacity="0.9" />
+				<path d="M0 175 L70 128 L120 150 L185 110 L250 145 L320 120 V200 H0Z" fill="url(#ridge-b)" />
+				<path d="M30 190 C80 170 110 160 140 140 S190 105 222 92" fill="none" stroke="var(--color-paper)" stroke-width="1.5" stroke-dasharray="2 6" stroke-linecap="round" />
+				<circle cx="222" cy="92" r="9" fill="var(--color-mint)" opacity="0.25" />
+				<circle cx="222" cy="92" r="4" fill="var(--color-mint)" />
+			</svg>
+		)
+	}
+	{
+		slug === 'tripflow' && (
+			<div class="w-full max-w-72 rounded-md border border-line bg-bg p-4 shadow-2xl shadow-black/40 transition-transform duration-700 ease-out-soft group-hover:-translate-y-2">
+				<div class="flex items-center justify-between">
+					<div class={`${bar} w-16`} />
+					<div class="flex gap-1">
+						<span class="size-2 rounded-full bg-fg/20" />
+						<span class="size-2 rounded-full bg-fg/20" />
+						<span class="size-2 rounded-full bg-accent" />
+					</div>
+				</div>
+				<div class="mt-5 flex h-24 items-end gap-2">
+					{[38, 55, 46, 70, 62, 88, 76].map((h, i) => (
+						<div class:list={['flex-1 rounded-t-sm', i === 5 ? 'bg-accent' : 'bg-fg/15']} style={`height:${h}%`} />
+					))}
+				</div>
+				<div class="mt-4 grid grid-cols-7 gap-1.5">
+					{Array.from({ length: 14 }, (_, i) => (
+						<span class:list={['aspect-square rounded-[3px]', [2, 3, 4, 9, 10].includes(i) ? 'bg-accent/70' : 'bg-fg/10']} />
+					))}
+				</div>
+			</div>
+		)
+	}
+	{
+		slug === 'launchbunch' && (
+			<div class="w-full max-w-72 space-y-3 transition-transform duration-700 ease-out-soft group-hover:-translate-y-2">
+				<div class="flex h-10 items-center gap-3 rounded-pill border border-line bg-bg px-4 shadow-2xl shadow-black/40">
+					<svg class="size-4 text-fg/50" viewBox="0 0 16 16" fill="none">
+						<circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5" />
+						<path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+					</svg>
+					<div class={`${bar} w-28`} />
+				</div>
+				<div class="rounded-md border border-accent/50 bg-bg p-4">
+					<div class="flex items-center gap-2">
+						<span class="label rounded-pill bg-accent px-2 py-0.5 text-[0.625rem] text-bg">#1</span>
+						<div class={`${bar} w-24 bg-accent/60`} />
+					</div>
+					<div class={`${bar} mt-3 w-full`} />
+					<div class={`${bar} mt-1.5 w-3/4`} />
+				</div>
+				<div class="rounded-md border border-line bg-bg/60 p-4 opacity-60">
+					<div class={`${bar} w-20`} />
+					<div class={`${bar} mt-3 w-full`} />
+				</div>
+			</div>
+		)
+	}
+</div>

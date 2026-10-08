@@ -1,0 +1,31 @@
+---
+// Studio statement. Words brighten as the paragraph scrolls into view
+// (CSS scroll-driven animation; plain text where unsupported).
+import Section from '../Section.astro';
+import Eyebrow from '../Eyebrow.astro';
+import { statement, facts } from '../../data/home';
+
+const words = statement.split(' ');
+---
+
+<Section aria-labelledby="studio-title">
+	<div class="grid gap-10 lg:grid-cols-12">
+		<div class="lg:col-span-3">
+			<Eyebrow>Studio</Eyebrow>
+			<h2 id="studio-title" class="sr-only">About the studio</h2>
+		</div>
+		<p class="words-reveal text-statement font-medium lg:col-span-9">
+			{words.map((w) => <span class="w">{w} </span>)}
+		</p>
+	</div>
+	<dl class="mt-[clamp(3rem,2rem+4vw,6rem)] grid gap-px overflow-hidden rounded-md border border-line bg-line sm:grid-cols-3">
+		{
+			facts.map(({ label, value }, i) => (
+				<div class="bg-bg p-6 sm:p-8" data-reveal style={`--reveal-i:${i}`}>
+					<dt class="label text-muted">{label}</dt>
+					<dd class="mt-3 text-h3">{value}</dd>
+				</div>
+			))
+		}
+	</dl>
+</Section>

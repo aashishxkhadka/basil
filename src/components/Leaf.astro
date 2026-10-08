@@ -1,0 +1,13 @@
+---
+// The leaf from the Basilpot wordmark, as a standalone motif for bullets,
+// dividers and graphics (spec §1 "Graphic motifs"). Decorative: hidden from
+// assistive tech. Colour comes from `currentColor`.
+interface Props {
+	class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<svg class:list={['shrink-0', className]} viewBox="1719 -866 254 254" fill="currentColor" aria-hidden="true" focusable="false">
+	<path d="M1969.06 -864.19A229.5 229.5 0 0 0 1720.95 -613.99L1722.86 -613.81A229.5 229.5 0 0 0 1970.97 -864.01Z"></path>
+</svg>

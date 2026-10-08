@@ -25,6 +25,7 @@ const {
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<script is:inline>document.documentElement.classList.add('js');</script>
 		<slot name="head" />
 	</head>
 	<body class="flex min-h-dvh flex-col">
@@ -39,5 +40,25 @@ const {
 			<slot />
 		</main>
 		<Footer />
+		<script>
+			// Fade/slide elements in once as they enter the viewport.
+			const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
+			if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+				items.forEach((el) => el.classList.add('is-in'));
+			} else {
+				const io = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-in');
+								io.unobserve(entry.target);
+							}
+						}
+					},
+					{ rootMargin: '0px 0px -8% 0px' },
+				);
+				items.forEach((el) => io.observe(el));
+			}
+		</script>
 	</body>
 </html>

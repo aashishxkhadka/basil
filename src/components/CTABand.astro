@@ -1,0 +1,46 @@
+---
+// Basil call-to-action band with oversized type and the logo's rings + leaf.
+import Section from './Section.astro';
+import Button from './Button.astro';
+import Leaf from './Leaf.astro';
+
+interface Props {
+	title?: string;
+	accent?: string;
+	text?: string;
+	cta?: { label: string; href: string };
+}
+const {
+	title = 'Have an idea?',
+	accent = 'Let’s grow it.',
+	text = 'Tell us where you are and where you want to be. We reply with honest next steps.',
+	cta = { label: 'Start a project', href: '/contact' },
+} = Astro.props;
+---
+
+<Section tone="basil" space="lg" class="relative isolate overflow-hidden" aria-labelledby="cta-title">
+	<div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+		<div class="absolute inset-0 bg-glow"></div>
+		<div class="absolute inset-0 bg-grid"></div>
+		<div class="absolute right-[-15rem] bottom-[-20rem] size-[34rem] sm:right-[-8rem] sm:bottom-[-14rem] lg:right-[-4rem] lg:bottom-[-10rem] lg:size-[44rem]">
+			<span class="absolute inset-0 rounded-full border border-paper/15"></span>
+			<span class="absolute inset-[14%] rounded-full border border-paper/20"></span>
+			<span class="absolute inset-[28%] rounded-full border border-dashed border-mint/40 motion-safe:animate-[spin-slow_60s_linear_infinite]"></span>
+			<span class="absolute inset-[40%] flex items-center justify-center rounded-full bg-linear-135 from-mint to-paper/70 text-basil">
+				<Leaf class="size-1/2" />
+			</span>
+		</div>
+	</div>
+	<div data-reveal>
+		<h2 id="cta-title" class="text-[clamp(3rem,1.2rem+7.6vw,9.5rem)] leading-[0.9] font-semibold tracking-[-0.05em]">
+			<span class="block">{title}</span>
+			<span class="block text-gradient">{accent}</span>
+		</h2>
+		<div class="mt-12 flex flex-col gap-8 md:flex-row md:items-center md:gap-12">
+			<p class="max-w-md text-lead text-muted">{text}</p>
+			<div class="flex shrink-0 flex-wrap items-center gap-x-8 gap-y-4">
+				<Button href={cta.href} class="min-h-14 px-8 text-base">{cta.label}</Button>
+			</div>
+		</div>
+	</div>
+</Section>

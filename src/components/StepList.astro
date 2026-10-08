@@ -1,0 +1,31 @@
+---
+// Numbered process steps (Idea → Plan → Design → Build → Grow).
+// Columns with large outlined numerals on desktop, rows on mobile.
+interface Props {
+	steps: { title: string; text: string }[];
+}
+const { steps } = Astro.props;
+---
+
+<ol class="grid border-t border-line md:grid-cols-5">
+	{
+		steps.map(({ title, text }, i) => (
+			<li
+				class="group relative border-b border-line py-8 md:border-b-0 md:border-l md:px-6 md:py-10 md:first:border-l-0 md:first:pl-0"
+				data-reveal
+				style={`--reveal-i:${i}`}
+			>
+				<span
+					aria-hidden="true"
+					class="absolute top-0 left-0 h-px w-0 bg-linear-to-r from-(--grad-a) to-(--grad-b) transition-[width] duration-700 ease-out-soft group-hover:w-full md:top-[-1px]"
+				/>
+				<span class="block text-[clamp(3.5rem,2.4rem+4vw,6.5rem)] leading-none font-semibold tracking-[-0.05em] text-outline transition-colors duration-500 group-hover:text-accent group-hover:[-webkit-text-stroke-color:transparent]">
+					<span class="sr-only">Step </span>
+					{String(i + 1).padStart(2, '0')}
+				</span>
+				<h3 class="mt-8 text-h3">{title}</h3>
+				<p class="mt-2 max-w-xs text-muted md:max-w-none">{text}</p>
+			</li>
+		))
+	}
+</ol>
