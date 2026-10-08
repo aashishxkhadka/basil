@@ -1,57 +1,130 @@
 ---
+// Internal brand token preview (build step 1). Not linked from the site
+// and kept out of search results.
 import Layout from '../layouts/Layout.astro';
+import Logo from '../components/Logo.astro';
+import Button from '../components/Button.astro';
+import Section from '../components/Section.astro';
 
-// Placeholder style guide. Colors and fonts are TBD (see CLAUDE.md > Brand);
-// update the samples here once the brand tokens are defined in global.css.
-const headings = [
-	{ className: 'text-5xl font-bold', label: 'Heading 1' },
-	{ className: 'text-4xl font-bold', label: 'Heading 2' },
-	{ className: 'text-3xl font-semibold', label: 'Heading 3' },
-	{ className: 'text-2xl font-semibold', label: 'Heading 4' },
+const colors = [
+	{ name: 'Ink', hex: '#111412', token: 'ink', use: 'Text on light. Dark backgrounds.' },
+	{ name: 'Paper', hex: '#F3F2EC', token: 'paper', use: 'Main light background. Never pure white.' },
+	{ name: 'Basil', hex: '#1F5C3D', token: 'basil', use: 'Buttons, links, key highlights. Sparingly.' },
+	{ name: 'Mint', hex: '#8FD19E', token: 'mint', use: 'Accent on Ink or Basil only.' },
 ];
 
-const swatches = [
-	{ name: 'Neutral base', value: 'TBD' },
-	{ name: 'Accent', value: 'TBD' },
+const swatchBg: Record<string, string> = {
+	ink: 'bg-ink',
+	paper: 'bg-paper',
+	basil: 'bg-basil',
+	mint: 'bg-mint',
+};
+
+const typeScale = [
+	{ token: 'text-display', className: 'text-display font-semibold', sample: 'Ideas, grown into products.' },
+	{ token: 'text-h1', className: 'text-h1 font-semibold', sample: 'From idea to growth.' },
+	{ token: 'text-h2', className: 'text-h2 font-semibold', sample: 'How we work' },
+	{ token: 'text-h3', className: 'text-h3 font-semibold', sample: 'Development' },
+	{
+		token: 'text-lead',
+		className: 'text-lead text-muted max-w-2xl',
+		sample: 'We take businesses from idea to growth, with AI-driven products and automation.',
+	},
+	{
+		token: 'text-body',
+		className: 'text-body max-w-prose',
+		sample:
+			'Short sentences. Plain words. We plan it, design it, build it, and stay to help it grow. Body text gets room to breathe.',
+	},
+	{ token: 'label (Geist Mono)', className: 'label text-muted', sample: 'Product studio · Pokhara, Nepal' },
 ];
+
+const tones = [
+	{ tone: 'paper', name: 'Paper', note: 'Default. Follows dark mode.' },
+	{ tone: 'ink', name: 'Ink', note: 'Products section. Mint accents.' },
+	{ tone: 'basil', name: 'Basil', note: 'CTA band.' },
+] as const;
 ---
 
-<Layout title="Style guide · Basilpot">
-	<main class="mx-auto max-w-5xl space-y-16 px-4 py-16">
-		<header class="space-y-2">
-			<h1 class="text-4xl font-bold">Style guide</h1>
-			<p>Internal reference for type and color. Brand tokens are not defined yet.</p>
-		</header>
+<Layout title="Brand tokens · Basilpot" description="Internal preview of Basilpot brand tokens.">
+	<meta slot="head" name="robots" content="noindex" />
 
-		<section aria-labelledby="type-heading" class="space-y-6">
-			<h2 id="type-heading" class="text-sm font-semibold uppercase tracking-wide">Typography</h2>
-			{
-				// Samples are plain text so the page keeps a single h1 and a clean outline.
-				headings.map(({ className, label }) => <p class={className}>{label}</p>)
-			}
-			<p class="max-w-prose text-lg">
-				Body large. We brainstorm, plan, design, build, and scale businesses, from
-				planning and design to development, deployment, and support.
+	<main>
+		<Section space="sm" class="border-b border-line">
+			<Logo class="h-8 sm:h-10" />
+			<h1 class="mt-10 text-h1">Brand tokens</h1>
+			<p class="mt-4 max-w-2xl text-lead text-muted">
+				Colours, type and core components from the spec. Everything on the site is built from
+				these.
 			</p>
-			<p class="max-w-prose">
-				Body. Clarity, craftsmanship, long-term value. This paragraph shows the default
-				body size and line length.
-			</p>
-			<p class="text-sm">Small. Captions and meta text.</p>
-		</section>
+		</Section>
 
-		<section aria-labelledby="color-heading" class="space-y-6">
-			<h2 id="color-heading" class="text-sm font-semibold uppercase tracking-wide">Colors</h2>
-			<ul class="grid gap-4 sm:grid-cols-2">
+		<!-- Colours -->
+		<Section space="sm" aria-labelledby="colours">
+			<h2 id="colours" class="label text-muted">01 · Colour</h2>
+			<ul class="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
 				{
-					swatches.map(({ name, value }) => (
-						<li class="border border-dashed p-6">
-							<p class="font-semibold">{name}</p>
-							<p class="text-sm">{value}</p>
+					colors.map(({ name, hex, token, use }) => (
+						<li class="overflow-hidden rounded-md border border-line">
+							<div class:list={['aspect-[4/3]', swatchBg[token]]} />
+							<div class="space-y-1 p-4">
+								<p class="flex items-baseline justify-between gap-2">
+									<span class="font-semibold">{name}</span>
+									<span class="label text-muted">{hex}</span>
+								</p>
+								<p class="text-sm text-muted">{use}</p>
+							</div>
 						</li>
 					))
 				}
 			</ul>
-		</section>
+			<p class="mt-6 text-sm text-muted">
+				Rule: Paper and Ink do 90% of the work. Basil is used sparingly so it means something.
+			</p>
+		</Section>
+
+		<!-- Type -->
+		<Section space="sm" aria-labelledby="type" class="border-t border-line">
+			<h2 id="type" class="label text-muted">02 · Type · Geist / Geist Mono</h2>
+			<dl class="mt-8 divide-y divide-line">
+				{
+					typeScale.map(({ token, className, sample }) => (
+						<div class="grid gap-3 py-8 md:grid-cols-[12rem_1fr] md:gap-8">
+							<dt class="label pt-2 text-muted">{token}</dt>
+							<dd class={className}>{sample}</dd>
+						</div>
+					))
+				}
+			</dl>
+		</Section>
+
+		<!-- Logo + buttons on each tone -->
+		<Section space="sm" aria-labelledby="tones" class="border-t border-line">
+			<h2 id="tones" class="label text-muted">03 · Logo, buttons and section tones</h2>
+		</Section>
+
+		{
+			tones.map(({ tone, name, note }) => (
+				<Section tone={tone} space="sm" aria-label={`${name} tone`}>
+					<div class="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+						<div class="space-y-6">
+							<p class="label text-accent">
+								{name} · {note}
+							</p>
+							<Logo class="h-9 sm:h-11" label={`Basilpot logo on ${name}`} />
+						</div>
+						<div class="flex flex-wrap items-center gap-x-6 gap-y-4">
+							<Button href="#">Start a project</Button>
+							<Button href="#" variant="secondary">
+								Our services
+							</Button>
+							<Button href="#" variant="text">
+								See our work
+							</Button>
+						</div>
+					</div>
+				</Section>
+			))
+		}
 	</main>
 </Layout>

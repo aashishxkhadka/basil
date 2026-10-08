@@ -1,0 +1,35 @@
+---
+// Page section with consistent vertical rhythm and width.
+// `tone` swaps the whole colour context (see global.css):
+//   paper (default, follows dark mode) · ink (Mint accents) · basil (CTA band)
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = {
+	as?: 'section' | 'div' | 'header' | 'footer' | 'aside';
+	tone?: 'paper' | 'ink' | 'basil';
+	/** Vertical padding. */
+	space?: 'sm' | 'md' | 'lg';
+	/** Set false to manage width inside the slot yourself. */
+	contained?: boolean;
+	class?: string;
+} & Omit<HTMLAttributes<'section'>, 'class'>;
+
+const {
+	as: Tag = 'section',
+	tone,
+	space = 'md',
+	contained = true,
+	class: className,
+	...rest
+} = Astro.props;
+
+const spacing = {
+	sm: 'py-[clamp(3rem,2rem+4vw,5rem)]',
+	md: 'py-[clamp(4.5rem,3rem+6vw,8.5rem)]',
+	lg: 'py-[clamp(6rem,4rem+8vw,11rem)]',
+};
+---
+
+<Tag data-tone={tone} class:list={[spacing[space], className]} {...rest}>
+	{contained ? <div class="container-site"><slot /></div> : <slot />}
+</Tag>
