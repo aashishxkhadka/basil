@@ -5,8 +5,9 @@
 import Logo from './Logo.astro';
 import Button from './Button.astro';
 import { mainNav, primaryCta, site } from '../data/site';
+import { withBase, stripBase } from '../lib/url';
 
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const path = stripBase(Astro.url.pathname);
 const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
 ---
 
@@ -17,7 +18,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
 	class="sticky top-0 z-40 border-b border-transparent transition-[background-color,border-color] duration-300 ease-out-soft data-[scrolled]:border-line data-[scrolled]:bg-bg"
 >
 	<nav aria-label="Main" class="container-site flex h-16 items-center justify-between gap-6 md:h-20">
-		<a href="/" class="-m-2 rounded-sm p-2" aria-label={`${site.name} home`}>
+		<a href={withBase('/')} class="-m-2 rounded-sm p-2" aria-label={`${site.name} home`}>
 			<Logo class="h-6 md:h-7" label="" />
 		</a>
 
@@ -27,7 +28,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
 					mainNav.map(({ label, href }) => (
 						<li>
 							<a
-								href={href}
+								href={withBase(href)}
 								aria-current={isCurrent(href) ? 'page' : undefined}
 								class="text-[0.9375rem] text-muted transition-colors hover:text-fg aria-[current=page]:text-fg"
 							>
@@ -62,7 +63,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
 >
 	<div class="container-site flex h-full flex-col">
 		<div class="flex h-16 items-center justify-between">
-			<a href="/" class="-m-2 rounded-sm p-2" aria-label={`${site.name} home`}>
+			<a href={withBase('/')} class="-m-2 rounded-sm p-2" aria-label={`${site.name} home`}>
 				<Logo class="h-6" label="" />
 			</a>
 			<button
@@ -83,7 +84,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
 				mainNav.map(({ label, href }, i) => (
 					<li class="border-b border-line">
 						<a
-							href={href}
+							href={withBase(href)}
 							aria-current={isCurrent(href) ? 'page' : undefined}
 							class="flex items-baseline gap-4 py-5 text-h2 font-semibold"
 						>

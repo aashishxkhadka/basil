@@ -2,6 +2,7 @@
 // Case study teaser for real work only: client, service, one-line result.
 // TODO (step 6): add the cover image via Astro <Image>.
 import type { FeaturedWork } from '../data/work';
+import { withBase } from '../lib/url';
 
 interface Props {
 	work: FeaturedWork;
@@ -17,7 +18,7 @@ const { work, index } = Astro.props;
 	<div class="flex flex-1 flex-col p-6">
 		<p class="label text-muted">{work.service}</p>
 		<h3 class="mt-3 text-h3">
-			<a href={work.href} class="after:absolute after:inset-0 after:rounded-md">{work.client}</a>
+			<a href={withBase(work.href)} class="after:absolute after:inset-0 after:rounded-md">{work.client}</a>
 		</h3>
 		<p class="mt-2 text-muted">{work.result}</p>
 	</div>

@@ -5,6 +5,7 @@
 //   text      → inline link with arrow, e.g. "See our work"
 // Renders <a> when `href` is set, otherwise <button>.
 import type { HTMLAttributes } from 'astro/types';
+import { withBase } from '../lib/url';
 
 type Variant = 'primary' | 'secondary' | 'text';
 
@@ -41,7 +42,7 @@ const variants: Record<Variant, string> = {
 
 const Tag = href ? 'a' : 'button';
 const linkProps = href
-	? { href, ...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {}) }
+	? { href: withBase(href), ...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {}) }
 	: { type };
 ---
 
