@@ -1,0 +1,141 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Section from '../../components/Section.astro';
+import PageHero from '../../components/PageHero.astro';
+import Button from '../../components/Button.astro';
+import Leaf from '../../components/Leaf.astro';
+import CaseStudyCard from '../../components/CaseStudyCard.astro';
+import CTABand from '../../components/CTABand.astro';
+import { getWork, serviceLabels } from '../../lib/work';
+
+const work = await getWork();
+const filters = (Object.keys(serviceLabels) as (keyof typeof serviceLabels)[])
+	.map((id) => ({ id, label: serviceLabels[id], count: work.filter((w) => w.data.services.includes(id)).length }))
+	.filter((f) => f.count > 0);
+---
+
+<Layout
+	title="Work · Basilpot"
+	description="Case studies from Basilpot: websites, products, brands and growth work for businesses in Nepal and abroad."
+>
+	<PageHero
+		eyebrow="Work"
+		title="Work we are proud to put our name on."
+		accent="proud"
+		intro="Real projects, real outcomes. Each case study shows the problem, what we did and what changed."
+	/>
+
+	<!-- With no published case studies, the live site shows the "growing" state below. -->
+	<Section space="sm" class="border-t border-line" aria-label="Case studies">
+		{
+			work.length > 0 ? (
+				<>
+					{filters.length > 1 && (
+						<div class="mb-10 flex flex-wrap items-center gap-2.5" role="group" aria-label="Filter by service" data-work-filters>
+							<button type="button" aria-pressed="true" data-filter="all" class="work-filter">
+								All <span class="text-muted">{work.length}</span>
+							</button>
+							{filters.map((f) => (
+								<button type="button" aria-pressed="false" data-filter={f.id} class="work-filter">
+									{f.label} <span class="text-muted">{f.count}</span>
+								</button>
+							))}
+							<p class="sr-only" aria-live="polite" data-work-status />
+						</div>
+					)}
+					<div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3" data-work-grid>
+						{work.map((entry, i) => (
+							<CaseStudyCard entry={entry} index={i} headingLevel="h2" />
+						))}
+					</div>
+				</>
+			) : (
+				<div class="card relative overflow-hidden px-6 py-16 text-center sm:px-12 sm:py-24" data-reveal>
+					<div aria-hidden="true" class="pointer-events-none absolute inset-0">
+						<div class="absolute inset-0 bg-glow" />
+						<div class="absolute inset-0 bg-grid" />
+					</div>
+					<div class="relative mx-auto max-w-2xl">
+						<span class="mx-auto flex size-16 items-center justify-center rounded-full bg-linear-135 from-(--grad-a) to-(--grad-b) text-bg">
+							<Leaf class="size-7" />
+						</span>
+						<h2 class="mt-8 text-h2">Case studies are growing.</h2>
+						<p class="mx-auto mt-5 max-w-lg text-lead text-muted">
+							We are writing up recent client projects together with the people we built them for.
+							Until then, see what we have built and run ourselves.
+						</p>
+						<div class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+							<Button href="/products">See our products</Button>
+							<Button href="/contact" variant="text">Start a project</Button>
+						</div>
+					</div>
+				</div>
+			)
+		}
+	</Section>
+
+	<CTABand title="Want to be our next case study?" accent="Let’s grow it." />
+</Layout>
+
+<style>
+	.work-filter {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		min-height: 2.75rem;
+		padding-inline: 1.1rem;
+		border-radius: var(--radius-pill);
+		border: 1px solid var(--line);
+		font-size: 0.9375rem;
+		font-weight: 500;
+		transition:
+			border-color 0.2s,
+			background-color 0.2s,
+			color 0.2s;
+	}
+	.work-filter:hover {
+		border-color: var(--accent);
+	}
+	.work-filter[aria-pressed='true'] {
+		background: var(--fg);
+		border-color: var(--fg);
+		color: var(--bg);
+	}
+	.work-filter[aria-pressed='true'] span {
+		color: inherit;
+		opacity: 0.6;
+	}
+</style>
+
+<script>
+	// Service filter. Without JS every case study simply stays visible.
+	const bar = document.querySelector<HTMLElement>('[data-work-filters]');
+	const cards = document.querySelectorAll<HTMLElement>('[data-work-grid] > [data-services]');
+	const status = document.querySelector<HTMLElement>('[data-work-status]');
+
+	function apply(filter: string) {
+		let shown = 0;
+		cards.forEach((card) => {
+			const match = filter === 'all' || card.dataset.services!.split(' ').includes(filter);
+			card.hidden = !match;
+			if (match) shown++;
+		});
+		bar?.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((b) => {
+			b.setAttribute('aria-pressed', String(b.dataset.filter === filter));
+		});
+		if (status) status.textContent = `${shown} case ${shown === 1 ? 'study' : 'studies'} shown`;
+	}
+
+	bar?.addEventListener('click', (e) => {
+		const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
+		if (!btn) return;
+		apply(btn.dataset.filter!);
+		const url = new URL(location.href);
+		btn.dataset.filter === 'all' ? url.searchParams.delete('service') : url.searchParams.set('service', btn.dataset.filter!);
+		history.replaceState(null, '', url);
+	});
+
+	// Honour links like /work?service=design.
+	const initial = new URLSearchParams(location.search).get('service');
+	if (bar && initial && bar.querySelector(`[data-filter="${initial}"]`)) apply(initial);
+</script>

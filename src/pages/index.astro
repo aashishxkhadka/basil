@@ -14,7 +14,9 @@ import ServiceIndex from '../components/home/ServiceIndex.astro';
 import ProductBento from '../components/home/ProductBento.astro';
 import WorldClock from '../components/home/WorldClock.astro';
 import { steps, values } from '../data/home';
-import { featuredWork } from '../data/work';
+import { getWork } from '../lib/work';
+
+const featuredWork = (await getWork()).filter((w) => w.data.featured).slice(0, 3);
 ---
 
 <Layout
@@ -69,13 +71,13 @@ import { featuredWork } from '../data/work';
 		</div>
 	</Section>
 
-	<!-- Selected work: hidden until real case studies exist (src/data/work.ts). -->
+	<!-- Selected work: hidden until a case study in src/content/work is marked `featured`. -->
 	{
 		featuredWork.length > 0 && (
 			<Section aria-labelledby="work-title">
 				<SectionHeading id="work-title" eyebrow="Selected work" title="Recent work." action={{ label: 'All work', href: '/work' }} />
 				<div class="mt-14 grid gap-5 md:grid-cols-3">
-					{featuredWork.slice(0, 3).map((work, i) => <CaseStudyCard work={work} index={i} />)}
+					{featuredWork.map((entry, i) => <CaseStudyCard entry={entry} index={i} />)}
 				</div>
 			</Section>
 		)

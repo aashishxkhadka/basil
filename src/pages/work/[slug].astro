@@ -1,0 +1,167 @@
+---
+import { render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import Section from '../../components/Section.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import Button from '../../components/Button.astro';
+import Leaf from '../../components/Leaf.astro';
+import CTABand from '../../components/CTABand.astro';
+import { getWork, serviceLabels, type WorkEntry } from '../../lib/work';
+import { withBase } from '../../lib/url';
+
+export async function getStaticPaths() {
+	const work = await getWork();
+	return work.map((entry, i) => ({
+		params: { slug: entry.id },
+		props: { entry, next: work.length > 1 ? work[(i + 1) % work.length] : undefined },
+	}));
+}
+
+interface Props {
+	entry: WorkEntry;
+	next?: WorkEntry;
+}
+const { entry, next } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+
+const story = [
+	{ label: 'The challenge', text: data.challenge },
+	{ label: 'What we did', text: data.approach },
+	{ label: 'The result', text: data.result, highlight: true },
+];
+const meta = [
+	{ label: 'Client', value: data.client },
+	{ label: 'Industry', value: data.industry },
+	{ label: 'Services', value: data.services.map((s) => serviceLabels[s]).join(', ') },
+	...(data.year ? [{ label: 'Year', value: String(data.year) }] : []),
+	...(data.location ? [{ label: 'Location', value: data.location }] : []),
+];
+---
+
+<Layout title={`${data.client}: ${data.title} · Basilpot`} description={data.summary}>
+	{data.draft && <meta slot="head" name="robots" content="noindex" />}
+
+	<!-- Header -->
+	<section class="relative isolate -mt-16 overflow-hidden pt-16 md:-mt-20 md:pt-20" aria-labelledby="case-title">
+		<div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+			<div class="absolute inset-0 bg-glow"></div>
+			<div class="absolute inset-0 bg-grid"></div>
+		</div>
+		<div class="container-site pt-[clamp(3rem,2rem+5vw,7rem)] pb-[clamp(3rem,2rem+4vw,5.5rem)]">
+			<a href={withBase('/work')} class="label inline-flex items-center gap-2 text-muted transition-colors hover:text-fg">
+				<span aria-hidden="true">←</span> All work
+			</a>
+			<div class="fade-up mt-10" style="--delay:0.05s">
+				<Eyebrow>Case study · {data.industry}</Eyebrow>
+			</div>
+			<h1 id="case-title" class="mt-6 max-w-5xl -ml-[0.03em] text-display font-semibold">
+				<span class="line-mask"><span>{data.title}</span></span>
+			</h1>
+			<dl class="fade-up mt-12 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-line pt-8 md:grid-cols-5" style="--delay:0.4s">
+				{
+					meta.map(({ label, value }) => (
+						<div>
+							<dt class="label text-muted">{label}</dt>
+							<dd class="mt-2">{value}</dd>
+						</div>
+					))
+				}
+			</dl>
+			{
+				data.url && (
+					<Button href={data.url} external variant="text" arrow class="mt-8">
+						Visit the live site
+					</Button>
+				)
+			}
+		</div>
+	</section>
+
+	<!-- Cover -->
+	<div class="container-site">
+		<div class="card relative aspect-[16/9] overflow-hidden" data-reveal>
+			{
+				data.cover ? (
+					<Image src={data.cover} alt={data.coverAlt ?? ''} widths={[800, 1280, 1920]} sizes="(min-width: 1280px) 1200px, 100vw" class="size-full object-cover" loading="eager" />
+				) : (
+					<div aria-hidden="true" class="absolute inset-0">
+						<div class="absolute inset-0 bg-glow" />
+						<div class="absolute inset-0 bg-grid [mask-image:none] opacity-60" />
+						<div class="absolute inset-0 flex items-center justify-center">
+							<span class="absolute size-[40%] rounded-full border border-line" />
+							<span class="absolute size-[26%] rounded-full border border-dashed border-line" />
+							<span class="flex size-[14%] items-center justify-center rounded-full bg-linear-135 from-(--grad-a) to-(--grad-b) text-bg">
+								<Leaf class="size-1/2" />
+							</span>
+						</div>
+						{data.draft && <span class="label absolute top-5 left-5 rounded-pill bg-fg px-2.5 py-1 text-bg">Template · add a cover image</span>}
+					</div>
+				)
+			}
+		</div>
+	</div>
+
+	<!-- Story -->
+	<Section aria-label="Project story">
+		<ol class="divide-y divide-line border-y border-line">
+			{
+				story.map(({ label, text, highlight }, i) => (
+					<li class="grid items-start gap-6 py-10 lg:grid-cols-12 lg:gap-10 lg:py-14" data-reveal>
+						<h2 class:list={['label flex items-center gap-3 text-accent lg:col-span-4', highlight ? 'lg:pt-[1.1rem]' : 'lg:pt-1.5']}>
+							<span>{String(i + 1).padStart(2, '0')}</span>
+							<span class="text-muted">{label}</span>
+						</h2>
+						<p class:list={['lg:col-span-8', highlight ? 'text-statement font-medium' : 'text-lead']}>{text}</p>
+					</li>
+				))
+			}
+		</ol>
+
+		{
+			data.quote && (
+				<figure class="mt-[clamp(4rem,3rem+4vw,7rem)] max-w-4xl" data-reveal>
+					<Leaf class="size-8 text-accent" />
+					<blockquote class="mt-6 text-h2 font-medium">“{data.quote.text}”</blockquote>
+					<figcaption class="mt-6 text-muted">
+						<span class="text-fg">{data.quote.author}</span>
+						{data.quote.role && <span>, {data.quote.role}</span>}
+					</figcaption>
+				</figure>
+			)
+		}
+
+		<div class="prose-basil mt-[clamp(3rem,2rem+4vw,6rem)] max-w-3xl">
+			<Content />
+		</div>
+
+		{
+			data.gallery.length > 0 && (
+				<div class="mt-[clamp(3rem,2rem+4vw,6rem)] grid gap-5 md:grid-cols-2">
+					{data.gallery.map((img, i) => (
+						<div class:list={['card overflow-hidden', i % 3 === 0 && 'md:col-span-2']} data-reveal>
+							<Image src={img.src} alt={img.alt} widths={[640, 1024, 1600]} sizes="(min-width: 768px) 50vw, 100vw" class="size-full object-cover" />
+						</div>
+					))}
+				</div>
+			)
+		}
+	</Section>
+
+	{
+		next && (
+			<Section space="sm" class="border-t border-line" aria-label="Next case study">
+				<a href={withBase(`/work/${next.id}`)} class="group flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+					<span>
+						<span class="label text-muted">Next case study</span>
+						<span class="mt-3 block text-h2 transition-colors group-hover:text-accent">{next.data.title}</span>
+					</span>
+					<span class="label text-muted">{next.data.client} →</span>
+				</a>
+			</Section>
+		)
+	}
+
+	<CTABand />
+</Layout>
