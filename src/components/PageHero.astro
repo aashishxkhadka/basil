@@ -1,0 +1,37 @@
+---
+// Header for inner pages: eyebrow, large headline (one word can take the
+// gradient), intro, and an optional slot below. Same surface as the home hero.
+import Eyebrow from './Eyebrow.astro';
+
+interface Props {
+	eyebrow: string;
+	title: string;
+	/** A word in `title` to render with the brand gradient. */
+	accent?: string;
+	intro?: string;
+}
+const { eyebrow, title, accent, intro } = Astro.props;
+
+const i = accent ? title.indexOf(accent) : -1;
+const parts = i === -1 ? [title, '', ''] : [title.slice(0, i), accent!, title.slice(i + accent!.length)];
+---
+
+<section class="relative isolate -mt-16 overflow-hidden pt-16 md:-mt-20 md:pt-20" aria-labelledby="page-title">
+	<div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+		<div class="absolute inset-0 bg-glow"></div>
+		<div class="absolute inset-0 bg-grid"></div>
+		<div class="absolute inset-0 bg-grain"></div>
+	</div>
+	<div class="container-site pt-[clamp(3.5rem,2rem+6vw,8rem)] pb-[clamp(3.5rem,2rem+5vw,7rem)]">
+		<div class="fade-up" style="--delay:0.05s">
+			<Eyebrow>{eyebrow}</Eyebrow>
+		</div>
+		<h1 id="page-title" class="mt-[clamp(1.25rem,0.75rem+1.6vw,2.5rem)] max-w-6xl -ml-[0.03em] text-display font-semibold">
+			<span class="line-mask"><span>
+				{parts[0]}{parts[1] && <span class="text-gradient pr-[0.04em]">{parts[1]}</span>}{parts[2]}
+			</span></span>
+		</h1>
+		{intro && <p class="fade-up mt-8 max-w-2xl text-lead text-muted" style="--delay:0.35s">{intro}</p>}
+		<slot />
+	</div>
+</section>

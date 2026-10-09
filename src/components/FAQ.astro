@@ -1,0 +1,26 @@
+---
+// Accessible FAQ accordion built on native <details>/<summary>: keyboard and
+// screen-reader support with zero JavaScript.
+interface Props {
+	items: { q: string; a: string }[];
+}
+const { items } = Astro.props;
+---
+
+<div class="border-t border-line">
+	{
+		items.map(({ q, a }, i) => (
+			<details class="faq group border-b border-line" data-reveal style={`--reveal-i:${i % 3}`}>
+				<summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-h3 transition-colors hover:text-accent [&::-webkit-details-marker]:hidden">
+					{q}
+					<span class="relative flex size-10 shrink-0 items-center justify-center rounded-full border border-line transition-colors group-open:border-accent group-open:bg-accent group-open:text-bg" aria-hidden="true">
+						<svg class="size-4 transition-transform duration-300 ease-out-soft group-open:rotate-45" viewBox="0 0 16 16" fill="none">
+							<path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+						</svg>
+					</span>
+				</summary>
+				<p class="max-w-2xl pb-7 text-muted">{a}</p>
+			</details>
+		))
+	}
+</div>

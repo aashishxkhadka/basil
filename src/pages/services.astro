@@ -1,0 +1,137 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+import PageHero from '../components/PageHero.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Button from '../components/Button.astro';
+import Leaf from '../components/Leaf.astro';
+import ServiceVisual from '../components/ServiceVisual.astro';
+import FAQ from '../components/FAQ.astro';
+import CTABand from '../components/CTABand.astro';
+import { services } from '../data/services';
+import { faqs } from '../data/faq';
+import { withBase } from '../lib/url';
+
+const tones = ['paper', 'ink', 'paper'] as const;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<Layout
+	title="Services · Basilpot"
+	description="Development, design and digital marketing from one studio in Pokhara, Nepal. Websites, web apps, SaaS, AI automation, brand identity, UI/UX, SEO and ads."
+>
+	<PageHero
+		eyebrow="Services"
+		title="One studio, from first idea to steady growth."
+		accent="growth"
+		intro="Strategy, design, engineering and marketing under one roof. Fewer handoffs, clearer decisions and work that holds up long after launch."
+	>
+		<!-- Jump links to each service. -->
+		<nav aria-label="Services on this page" class="fade-up mt-[clamp(3rem,2rem+4vw,5.5rem)]" style="--delay:0.5s">
+			<ul class="grid gap-px overflow-hidden rounded-md border border-line bg-line md:grid-cols-3">
+				{
+					services.map((s, i) => (
+						<li class="bg-bg">
+							<a href={`#${s.id}`} class="group flex h-full flex-row-reverse items-center justify-between gap-6 px-5 py-4 transition-colors hover:bg-surface md:flex-col md:items-stretch md:justify-start md:p-7">
+								<span class="flex items-center justify-between">
+									<span class="label hidden text-accent md:inline">{pad(i + 1)}</span>
+									<span aria-hidden="true" class="flex size-9 items-center justify-center rounded-full border border-line transition-all duration-300 group-hover:translate-y-0.5 group-hover:border-accent group-hover:text-accent">
+										<svg class="size-4" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+									</span>
+								</span>
+								<span>
+									<span class="flex items-baseline gap-3 text-h3"><span class="label text-accent md:hidden">{pad(i + 1)}</span>{s.title}</span>
+									<span class="mt-2 hidden text-[0.9375rem] text-muted md:block">{s.promise}</span>
+								</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+	</PageHero>
+
+	{
+		services.map((s, i) => (
+			<Section id={s.id} tone={tones[i]} class="relative isolate overflow-clip border-t border-line" aria-labelledby={`${s.id}-title`}>
+				{tones[i] === 'ink' && (
+					<div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+						<div class="absolute inset-0 bg-glow" />
+						<div class="absolute inset-0 bg-grid" />
+					</div>
+				)}
+				<div class="grid gap-14 lg:grid-cols-12 lg:gap-10">
+					<!-- Left: what it is, who it's for, CTA. Sticky on desktop. -->
+					<div class="lg:sticky lg:top-28 lg:col-span-5 lg:self-start" data-reveal>
+						<p class="label text-muted">
+							<span class="text-accent">{pad(i + 1)}</span> / {pad(services.length)}
+						</p>
+						<h2 id={`${s.id}-title`} class="mt-6 text-h1">{s.title}</h2>
+						<p class="mt-6 text-lead">{s.summary}</p>
+						<div class="mt-8 border-t border-line pt-6">
+							<h3 class="label text-muted">Who it’s for</h3>
+							<p class="mt-3 text-muted">{s.forWho}</p>
+						</div>
+						<Button href={`/contact?service=${s.id}`} class="mt-10">{s.cta}</Button>
+					</div>
+
+					<!-- Right: visual, what's included, how it works. -->
+					<div class="lg:col-span-7">
+						<div class="card group relative aspect-[16/11] overflow-hidden sm:aspect-[16/10]" data-reveal>
+							<div class="absolute inset-0 bg-glow" />
+							<div class="absolute inset-0 bg-grid [mask-image:none] opacity-50" />
+							<ServiceVisual id={s.id} />
+						</div>
+
+						<h3 class="label mt-16 text-muted">What’s included</h3>
+						<ul class="mt-5 border-t border-line">
+							{s.included.map((item, j) => (
+								<li class="group grid gap-2 border-b border-line py-6 sm:grid-cols-[14rem_1fr] sm:gap-8" data-reveal style={`--reveal-i:${j % 3}`}>
+									<span class="flex items-center gap-3 text-h3">
+										<Leaf class="size-3.5 text-accent transition-transform duration-500 group-hover:rotate-45" />
+										{item.title}
+									</span>
+									<span class="text-muted sm:pt-1">{item.text}</span>
+								</li>
+							))}
+						</ul>
+
+						<h3 class="label mt-16 text-muted">How it works</h3>
+						<ol class="mt-5 grid gap-px overflow-hidden rounded-md border border-line bg-line sm:grid-cols-2 xl:grid-cols-4">
+							{s.process.map((step, j) => (
+								<li class="bg-bg p-5" data-reveal style={`--reveal-i:${j}`}>
+									<span class="label text-accent">{pad(j + 1)}</span>
+									<p class="mt-4 font-semibold">{step.title}</p>
+									<p class="mt-1 text-[0.9375rem] text-muted">{step.text}</p>
+								</li>
+							))}
+						</ol>
+					</div>
+				</div>
+			</Section>
+		))
+	}
+
+	<!-- FAQ -->
+	<Section aria-labelledby="faq-title" class="border-t border-line">
+		<div class="grid gap-12 lg:grid-cols-12 lg:gap-10">
+			<div class="lg:col-span-4" data-reveal>
+				<Eyebrow>FAQ</Eyebrow>
+				<h2 id="faq-title" class="mt-5 text-h2">Questions, answered.</h2>
+				<p class="mt-5 max-w-sm text-muted">
+					Something else on your mind?{' '}
+					<a href={withBase('/contact')} class="text-fg underline decoration-line underline-offset-4 hover:decoration-accent">Ask us directly</a>.
+				</p>
+			</div>
+			<div class="lg:col-span-8">
+				<FAQ items={faqs} />
+			</div>
+		</div>
+	</Section>
+
+	<CTABand
+		title="Not sure where to start?"
+		accent="Let’s talk it through."
+		text="Tell us about your idea or your business. We will suggest the simplest next step, even if it is not us."
+	/>
+</Layout>
