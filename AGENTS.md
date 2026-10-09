@@ -63,23 +63,36 @@ URL TBD), HQ Nepal (hqnepal.com).
   Verify at 375 / 768 / 1024 / 1280 / 1920 widths before showing.
 - Explain things in simple, plain English with clear numbered steps.
 
-## Progress (updated 2026-10-08)
+## Progress (updated 2026-10-09)
 Build order is in the spec (§9). Done and pushed:
 1. Brand tokens, fonts, global styles, Logo/Button/Section (`/styles` = token preview)
 2. Nav + Footer
-3. Home page (editorial redesign approved by owner: mega headline, marquee,
-   scroll-lit statement, service index, product bento, world clocks, mega CTA)
+3. Home (editorial redesign approved by owner)
+4. Services (sticky detail sections, FAQ on native <details>)
+5. Products (alternating showcases, code-drawn product illustrations)
+6. Work (content collection `src/content/work`, template.md is a draft;
+   live site shows a designed empty state until real cases exist)
+7. About (Pokhara skyline, story timeline, values, team placeholders dev-only)
+8. Contact (form posts to PUBLIC_FORM_ENDPOINT; validation + states)
+9. 404, SEO (canonical/OG/Twitter/JSON-LD), OG image, favicons, sitemap, robots
 
-**Next: step 4, Services page**, in the same visual language as Home.
-Then Products, Work (content collection), About, Contact, 404/SEO, QA pass.
+**Next: step 10**, full QA pass (mobile, dark mode, Lighthouse 95+, a11y),
+then step 11 deploy prep.
+
+Pattern: anything waiting on real content (cases, team, contact details) is
+shown as a placeholder in local dev only and hidden on the live build.
 
 Open TODOs waiting on the owner (never invent these):
-- Contact email and social links (`src/data/site.ts`)
-- Product statuses Live/Beta/Coming soon (`src/data/products.ts`)
-- Launchbunch and Tripflow URLs
-- Real case studies (`src/data/work.ts`; "Selected work" stays hidden while empty)
-- Real client logos (proof strip was removed until they exist)
-- Brand favicons (still Astro defaults)
+- Contact email, WhatsApp number, social links (`src/data/site.ts`)
+- Confirm reply promise ("within 24 hours"?) and budget ranges (`contact` in site.ts)
+- Form service: create Formspree/Web3Forms form, set repo Actions variable
+  PUBLIC_FORM_ENDPOINT (+ PUBLIC_FORM_ACCESS_KEY for Web3Forms)
+- Product statuses, Launchbunch and Tripflow URLs; review product copy (`src/data/products.ts`)
+- Confirm FAQ answers on timelines, pricing, support (`src/data/faq.ts`)
+- Story details, especially OBSYD; team names/roles/photos (`src/data/about.ts`)
+- Real case studies (copy `src/content/work/template.md`)
+- Real client logos (proof strip removed until they exist)
+- OG image says basilpot.com; regenerate if the domain differs
 
 Deployment:
 - Repo: github.com/aashishxkhadka/basil (public). Push over SSH works from this Mac.
@@ -87,6 +100,8 @@ Deployment:
   Settings → Pages → Source: GitHub Actions. Live URL: aashishxkhadka.github.io/basil/
 - `base: '/basil'` in astro.config.mjs. Always link internal paths through
   `withBase()` from `src/lib/url.ts`. Local dev URL: http://localhost:4321/basil/
+- After adding new files (content config, components), restart the dev server
+  if styles or routes look stale.
 - Owner's network sometimes resets the first request to github.com; just retry.
 
 ## Development

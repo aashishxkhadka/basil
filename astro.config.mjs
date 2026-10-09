@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,6 +12,10 @@ export default defineConfig({
   // else needs to change.
   site: 'https://aashishxkhadka.github.io',
   base: '/basil',
+  integrations: [
+    // Internal pages (token preview) stay out of the sitemap.
+    sitemap({ filter: (page) => !page.includes('/styles') }),
+  ],
   vite: {
     plugins: [tailwindcss()]
   }

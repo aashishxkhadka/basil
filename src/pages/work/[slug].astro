@@ -40,8 +40,7 @@ const meta = [
 ];
 ---
 
-<Layout title={`${data.client}: ${data.title} · Basilpot`} description={data.summary}>
-	{data.draft && <meta slot="head" name="robots" content="noindex" />}
+<Layout title={`${data.client}: ${data.title} · Basilpot`} description={data.summary} noindex={data.draft}>
 
 	<!-- Header -->
 	<section class="relative isolate -mt-16 overflow-hidden pt-16 md:-mt-20 md:pt-20" aria-labelledby="case-title">

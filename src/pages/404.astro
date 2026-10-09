@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Button from '../components/Button.astro';
+import Leaf from '../components/Leaf.astro';
+---
+
+<Layout title="Page not found · Basilpot" description="This page could not be found." noindex>
+	<section class="relative isolate -mt-16 flex min-h-[85svh] items-center overflow-hidden pt-16 md:-mt-20 md:pt-20" aria-labelledby="nf-title">
+		<div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+			<div class="absolute inset-0 bg-glow"></div>
+			<div class="absolute inset-0 bg-grid"></div>
+			<div class="absolute inset-0 bg-grain"></div>
+		</div>
+		<div class="container-site py-20">
+			<!-- "404" with the seed as the zero. -->
+			<p
+				aria-hidden="true"
+				class="fade-up flex items-center text-[clamp(6rem,3rem+16vw,16rem)] leading-none font-semibold tracking-[-0.06em]"
+				style="--delay:0.05s"
+			>
+				<span>4</span>
+				<span class="mx-[0.04em] flex size-[0.78em] items-center justify-center rounded-full bg-linear-135 from-(--grad-a) to-(--grad-b) text-bg">
+					<Leaf class="size-[45%] motion-safe:animate-[spin-slow_24s_linear_infinite]" />
+				</span>
+				<span>4</span>
+			</p>
+			<div class="fade-up mt-10" style="--delay:0.2s">
+				<Eyebrow>Page not found</Eyebrow>
+			</div>
+			<h1 id="nf-title" class="fade-up mt-5 max-w-3xl text-h1" style="--delay:0.3s">This page has not sprouted yet.</h1>
+			<p class="fade-up mt-5 max-w-lg text-lead text-muted" style="--delay:0.4s">
+				The link may be old, or the seed never took root. Let us get you back to something that has grown.
+			</p>
+			<div class="fade-up mt-10 flex flex-wrap items-center gap-x-8 gap-y-4" style="--delay:0.5s">
+				<Button href="/">Back to home</Button>
+				<Button href="/contact" variant="text">Tell us what you were looking for</Button>
+			</div>
+		</div>
+	</section>
+</Layout>
