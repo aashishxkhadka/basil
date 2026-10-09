@@ -11,6 +11,6 @@ approach: "We built a calm, direct path to understand each service and book an o
 cover: ./images/hex-healing-hub.png
 coverAlt: "Home page of the Hex Healing Hub Pokhara website"
 url: "https://hexhealinghubpokhara.com/"
-featured: true
+featured: false
 order: 1
 ---

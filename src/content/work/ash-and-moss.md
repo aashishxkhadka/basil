@@ -12,5 +12,6 @@ approach: "We structured the catalogue so customers and search engines can navig
 cover: ./images/ashandmoss.png
 coverAlt: "Home page of the Ash & Moss furniture store"
 url: "https://ashandmoss.com/"
+featured: true
 order: 15
 ---
