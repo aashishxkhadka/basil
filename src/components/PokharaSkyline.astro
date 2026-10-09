@@ -1,0 +1,42 @@
+---
+// Stylised Annapurna range over Phewa Lake, with Machhapuchhre (Fishtail)
+// at the centre. Brand colours only; decorative.
+interface Props {
+	class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<svg viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" class:list={['block h-full w-full', className]} aria-hidden="true" focusable="false">
+	<defs>
+		<linearGradient id="sky-far" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" stop-color="var(--grad-b)" stop-opacity="0.85" />
+			<stop offset="1" stop-color="var(--grad-b)" stop-opacity="0.25" />
+		</linearGradient>
+		<linearGradient id="sky-mid" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" stop-color="var(--grad-a)" stop-opacity="0.8" />
+			<stop offset="1" stop-color="var(--grad-a)" stop-opacity="0.4" />
+		</linearGradient>
+		<linearGradient id="sky-lake" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" stop-color="var(--grad-a)" stop-opacity="0.18" />
+			<stop offset="1" stop-color="var(--grad-a)" stop-opacity="0" />
+		</linearGradient>
+	</defs>
+
+	<!-- Far range -->
+	<path
+		d="M0 300 L90 250 L150 268 L230 196 L300 236 L360 214 L420 238 L470 206 L520 230 L566 150 L600 64 L612 96 L628 58 L660 150 L720 214 L790 176 L850 220 L920 168 L980 210 L1060 186 L1120 230 L1200 214 V420 H0Z"
+		fill="url(#sky-far)"
+	></path>
+	<!-- Snow on the Fishtail (always Paper, in both modes) -->
+	<path d="M600 64 L612 96 L628 58 L644 108 L628 100 L612 118 L596 98 L582 112Z" fill="var(--color-paper)" opacity="0.95"></path>
+	<!-- Near hills -->
+	<path
+		d="M0 340 L110 300 L210 322 L320 284 L430 318 L540 292 L640 326 L760 290 L880 318 L1000 286 L1110 312 L1200 296 V420 H0Z"
+		fill="url(#sky-mid)"
+		class="dark:opacity-55"
+	></path>
+	<!-- Lake -->
+	<rect x="0" y="352" width="1200" height="68" fill="url(#sky-lake)"></rect>
+	<path d="M180 372 H340 M520 388 H700 M860 376 H1010" stroke="var(--bg)" stroke-opacity="0.35" stroke-width="1.5" stroke-linecap="round"></path>
+</svg>

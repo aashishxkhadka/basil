@@ -1,0 +1,144 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+import PageHero from '../components/PageHero.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Leaf from '../components/Leaf.astro';
+import PokharaSkyline from '../components/PokharaSkyline.astro';
+import CTABand from '../components/CTABand.astro';
+import { story, team } from '../data/about';
+import { values } from '../data/home';
+
+const pad = (n: number) => String(n).padStart(2, '0');
+// Placeholder team cards show in local dev only.
+const visibleTeam = team.filter((m) => import.meta.env.DEV || !m.draft);
+---
+
+<Layout
+	title="About · Basilpot"
+	description="Basilpot started in Pokhara, Nepal, as a group of students helping local businesses. Today it is an idea-to-growth studio building products for the world."
+>
+	<PageHero
+		eyebrow="About"
+		title="Started in Pokhara. Built for the world."
+		accent="world"
+		intro="We are a product studio in the foothills of the Himalaya. We help businesses go from idea to growth, and we build products of our own."
+	/>
+
+	<!-- Skyline banner -->
+	<div class="container-site">
+		<figure class="card relative aspect-[4/3] overflow-hidden sm:aspect-[21/9]" data-reveal>
+			<div class="absolute inset-0 bg-glow"></div>
+			<div class="absolute inset-0 bg-grid [mask-image:none] opacity-40"></div>
+			<div class="absolute inset-x-0 bottom-0 h-[78%]">
+				<PokharaSkyline />
+			</div>
+			<div class="absolute inset-x-0 top-0 flex items-start justify-between gap-4 p-5 sm:p-7">
+				<p class="label text-fg">Pokhara, Nepal</p>
+				<p class="label text-right text-muted">28.21° N · 83.99° E</p>
+			</div>
+			<figcaption class="label absolute right-5 bottom-5 rounded-pill bg-bg/70 px-3 py-1.5 text-muted backdrop-blur-sm sm:right-7 sm:bottom-7">
+				Machhapuchhre · 6,993 m
+			</figcaption>
+		</figure>
+	</div>
+
+	<!-- Story -->
+	<Section aria-labelledby="story-title">
+		<div class="grid gap-14 lg:grid-cols-12 lg:gap-10">
+			<div class="lg:sticky lg:top-28 lg:col-span-5 lg:self-start" data-reveal>
+				<Eyebrow>Our story</Eyebrow>
+				<h2 id="story-title" class="mt-5 text-h2">From a student project to a product studio.</h2>
+				<p class="mt-6 max-w-md text-lead text-muted">
+					Same city, same people at the core, a much bigger ambition: build products from Nepal
+					that hold their own anywhere.
+				</p>
+			</div>
+			<ol class="relative lg:col-span-7">
+				<span
+					aria-hidden="true"
+					class="absolute top-3 bottom-3 left-[1.1875rem] w-px bg-linear-to-b from-(--grad-a) via-line to-line"
+				></span>
+				{
+					story.map((chapter, i) => (
+						<li class="relative grid grid-cols-[2.375rem_1fr] gap-6 pb-14 last:pb-0" data-reveal style={`--reveal-i:${i}`}>
+							<span class:list={[
+								'relative z-10 flex size-[2.375rem] items-center justify-center rounded-full border',
+								i === story.length - 1 ? 'border-transparent bg-linear-135 from-(--grad-a) to-(--grad-b) text-bg' : 'border-line bg-bg text-accent',
+							]}>
+								{i === story.length - 1 ? <Leaf class="size-4" /> : <span class="label">{pad(i + 1)}</span>}
+							</span>
+							<div class="pt-1">
+								<p class="label text-muted">{chapter.label}</p>
+								<h3 class="mt-3 text-h2">{chapter.name}</h3>
+								<p class="mt-4 max-w-xl text-lead text-muted">{chapter.text}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</Section>
+
+	<!-- Values (Ink) -->
+	<Section tone="ink" class="relative isolate overflow-clip" aria-labelledby="values-title">
+		<div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+			<div class="absolute inset-0 bg-glow"></div>
+			<div class="absolute inset-0 bg-grid"></div>
+		</div>
+		<div class="max-w-3xl" data-reveal>
+			<Eyebrow>What we believe</Eyebrow>
+			<h2 id="values-title" class="mt-5 text-h2">Three values, in every project.</h2>
+		</div>
+		<ol class="mt-14 border-t border-line">
+			{
+				values.map(({ title, text }, i) => (
+					<li class="group grid items-baseline gap-4 border-b border-line py-10 md:grid-cols-12 md:gap-8 md:py-12" data-reveal style={`--reveal-i:${i}`}>
+						<span class="label text-accent md:col-span-1">{pad(i + 1)}</span>
+						<h3 class="text-[clamp(2.25rem,1.4rem+3.6vw,4.75rem)] leading-[0.95] font-semibold tracking-[-0.045em] transition-colors duration-500 group-hover:text-accent md:col-span-6">
+							{title}
+						</h3>
+						<p class="max-w-md text-lead text-muted md:col-span-5">{text}</p>
+					</li>
+				))
+			}
+		</ol>
+	</Section>
+
+	<!-- Team: section appears on the live site once real members are added. -->
+	{
+		visibleTeam.length > 0 && (
+			<Section aria-labelledby="team-title">
+				<div class="max-w-3xl" data-reveal>
+					<Eyebrow>Team</Eyebrow>
+					<h2 id="team-title" class="mt-5 text-h2">The people behind the work.</h2>
+				</div>
+				<ul class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+					{visibleTeam.map((m, i) => (
+						<li class="card group overflow-hidden" data-reveal style={`--reveal-i:${i % 3}`}>
+							<div class="relative aspect-[4/5] overflow-hidden border-b border-line">
+								<div class="absolute inset-0 bg-glow" />
+								<div class="absolute inset-0 bg-grid [mask-image:none] opacity-50" />
+								<div class="absolute inset-0 flex items-end justify-center">
+									<span class="h-[62%] w-[56%] rounded-t-full bg-linear-to-b from-(--grad-a)/40 to-transparent transition-transform duration-700 ease-out-soft group-hover:-translate-y-2" />
+								</div>
+								<span class="absolute top-[22%] left-1/2 size-[24%] -translate-x-1/2 rounded-full bg-linear-135 from-(--grad-a)/60 to-(--grad-b)/40" />
+								{m.draft && <span class="label absolute top-4 left-4 rounded-pill bg-fg px-2.5 py-1 text-bg">Placeholder · dev only</span>}
+							</div>
+							<div class="p-6">
+								<p class="text-h3">{m.name}</p>
+								<p class="label mt-2 text-muted">{m.role}</p>
+							</div>
+						</li>
+					))}
+				</ul>
+			</Section>
+		)
+	}
+
+	<CTABand
+		title="Let’s build something"
+		accent="that lasts."
+		text="Whether you are in Pokhara or on the other side of the world, we would love to hear what you are working on."
+	/>
+</Layout>
