@@ -1,0 +1,220 @@
+---
+// Contact form for a static site. Posts to a form service (Formspree or
+// Web3Forms) set via PUBLIC_FORM_ENDPOINT / PUBLIC_FORM_ACCESS_KEY.
+// Client-side validation with inline messages; clear sending, success and
+// error states. Without JS the form still submits as a normal POST.
+import Button from './Button.astro';
+import Leaf from './Leaf.astro';
+import { contact, site } from '../data/site';
+
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+const accessKey = import.meta.env.PUBLIC_FORM_ACCESS_KEY ?? '';
+
+const field =
+	'w-full rounded-sm border border-line bg-bg px-4 py-3.5 text-fg transition-colors placeholder:text-muted/70 hover:border-fg/40 focus:border-accent focus:outline-none aria-[invalid=true]:border-fg';
+const labelClass = 'mb-2 block text-[0.9375rem] font-medium';
+---
+
+<div class="contact-form" data-endpoint={endpoint} data-email={site.email}>
+	<form
+		action={endpoint || undefined}
+		method="post"
+		novalidate
+		class="grid gap-6 sm:grid-cols-2"
+		data-form
+		aria-describedby="form-note"
+	>
+		{accessKey && <input type="hidden" name="access_key" value={accessKey} />}
+		<input type="hidden" name="subject" value="New project enquiry from basilpot website" />
+		<!-- Spam traps: real people never see or fill these. -->
+		<div class="hidden" aria-hidden="true">
+			<label>Leave empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+			<input type="checkbox" name="botcheck" tabindex="-1" />
+		</div>
+
+		<div>
+			<label for="cf-name" class={labelClass}>Name <span class="text-muted">*</span></label>
+			<input id="cf-name" name="name" type="text" autocomplete="name" required class={field} aria-describedby="cf-name-err" />
+			<p id="cf-name-err" class="field-error" data-error-for="cf-name"></p>
+		</div>
+
+		<div>
+			<label for="cf-email" class={labelClass}>Email <span class="text-muted">*</span></label>
+			<input id="cf-email" name="email" type="email" autocomplete="email" required class={field} aria-describedby="cf-email-err" />
+			<p id="cf-email-err" class="field-error" data-error-for="cf-email"></p>
+		</div>
+
+		<div class="sm:col-span-2">
+			<label for="cf-company" class={labelClass}>Company <span class="text-muted">(optional)</span></label>
+			<input id="cf-company" name="company" type="text" autocomplete="organization" class={field} />
+		</div>
+
+		<div>
+			<label for="cf-service" class={labelClass}>What do you need?</label>
+			<div class="relative">
+				<select id="cf-service" name="service" class:list={[field, 'appearance-none pr-10']}>
+					<option value="">Choose a service</option>
+					{contact.services.map((s) => <option value={s.value}>{s.label}</option>)}
+				</select>
+				<svg class="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-muted" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+					<path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</div>
+		</div>
+
+		<div>
+			<label for="cf-budget" class={labelClass}>Budget</label>
+			<div class="relative">
+				<select id="cf-budget" name="budget" class:list={[field, 'appearance-none pr-10']}>
+					<option value="">Choose a range</option>
+					{contact.budgets.map((b) => <option value={b}>{b}</option>)}
+				</select>
+				<svg class="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-muted" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+					<path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</div>
+		</div>
+
+		<div class="sm:col-span-2">
+			<label for="cf-message" class={labelClass}>Tell us about your project <span class="text-muted">*</span></label>
+			<textarea
+				id="cf-message"
+				name="message"
+				rows="6"
+				required
+				minlength="20"
+				class:list={[field, 'resize-y']}
+				placeholder="What are you building, who is it for, and when do you need it?"
+				aria-describedby="cf-message-err"></textarea>
+			<p id="cf-message-err" class="field-error" data-error-for="cf-message"></p>
+		</div>
+
+		<div class="flex flex-col gap-4 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
+			<p id="form-note" class="text-[0.875rem] text-muted">Fields marked * are required. We never share your details.</p>
+			<Button type="submit" class="min-h-14 px-8 text-base" data-submit>
+				<span data-submit-label>Send message</span>
+			</Button>
+		</div>
+
+		<div role="alert" class="hidden rounded-sm border border-fg/30 bg-surface p-4 text-[0.9375rem] sm:col-span-2" data-form-error></div>
+	</form>
+
+	<div class="hidden py-10 text-center" role="status" tabindex="-1" data-form-success>
+		<span class="mx-auto flex size-16 items-center justify-center rounded-full bg-linear-135 from-(--grad-a) to-(--grad-b) text-bg">
+			<Leaf class="size-7" />
+		</span>
+		<h2 class="mt-8 text-h2">Message received.</h2>
+		<p class="mx-auto mt-4 max-w-md text-lead text-muted">Thank you. Your idea is in good hands. We will be in touch soon.</p>
+	</div>
+</div>
+
+<style>
+	.field-error {
+		display: none;
+		margin-top: 0.5rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--fg);
+	}
+	.field-error:not(:empty) {
+		display: flex;
+		gap: 0.4rem;
+		align-items: center;
+	}
+	.field-error:not(:empty)::before {
+		content: '!';
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.1rem;
+		height: 1.1rem;
+		border-radius: 999px;
+		background: var(--fg);
+		color: var(--bg);
+		font-size: 0.7rem;
+		font-weight: 700;
+	}
+</style>
+
+<script>
+	const root = document.querySelector<HTMLElement>('.contact-form');
+	const form = root?.querySelector<HTMLFormElement>('[data-form]');
+
+	if (root && form) {
+		const endpoint = root.dataset.endpoint;
+		const email = root.dataset.email;
+		const errorBox = form.querySelector<HTMLElement>('[data-form-error]')!;
+		const success = root.querySelector<HTMLElement>('[data-form-success]')!;
+		const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+		const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
+
+		// Preselect a service from links like /contact?service=design.
+		const pre = new URLSearchParams(location.search).get('service');
+		const select = form.querySelector<HTMLSelectElement>('#cf-service');
+		if (pre && select?.querySelector(`option[value="${pre}"]`)) select.value = pre;
+
+		const messages: Record<string, (el: HTMLInputElement | HTMLTextAreaElement) => string> = {
+			'cf-name': () => 'Please tell us your name.',
+			'cf-email': (el) => (el.validity.valueMissing ? 'We need your email to reply.' : 'That email does not look right.'),
+			'cf-message': (el) =>
+				el.validity.valueMissing ? 'Tell us a little about your project.' : 'A little more detail helps (20 characters or more).',
+		};
+
+		function check(el: HTMLInputElement | HTMLTextAreaElement): boolean {
+			const out = form!.querySelector<HTMLElement>(`[data-error-for="${el.id}"]`);
+			const ok = el.checkValidity();
+			el.setAttribute('aria-invalid', String(!ok));
+			if (out) out.textContent = ok ? '' : messages[el.id]?.(el) ?? el.validationMessage;
+			return ok;
+		}
+
+		const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]'));
+		// Re-check a field once the person has left it, and live after an error.
+		fields.forEach((el) => {
+			el.addEventListener('blur', () => el.value && check(el));
+			el.addEventListener('input', () => el.getAttribute('aria-invalid') === 'true' && check(el));
+		});
+
+		function showError(html: string) {
+			errorBox.innerHTML = html;
+			errorBox.classList.remove('hidden');
+		}
+
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			errorBox.classList.add('hidden');
+
+			const invalid = fields.filter((el) => !check(el));
+			if (invalid.length) {
+				invalid[0].focus();
+				return;
+			}
+
+			if (!endpoint) {
+				const fallback = email ? ` Please email us at <a class="underline" href="mailto:${email}">${email}</a>.` : '';
+				showError(`<strong>The form is not connected yet.</strong>${fallback}`);
+				return;
+			}
+
+			submit.disabled = true;
+			submitLabel.textContent = 'Sending…';
+			try {
+				const res = await fetch(endpoint, {
+					method: 'POST',
+					headers: { Accept: 'application/json' },
+					body: new FormData(form),
+				});
+				if (!res.ok) throw new Error(String(res.status));
+				form.classList.add('hidden');
+				success.classList.remove('hidden');
+				success.focus();
+			} catch {
+				const fallback = email ? ` or email <a class="underline" href="mailto:${email}">${email}</a>` : '';
+				showError(`<strong>Something went wrong and your message was not sent.</strong> Please try again${fallback}.`);
+			} finally {
+				submit.disabled = false;
+				submitLabel.textContent = 'Send message';
+			}
+		});
+	}
+</script>

@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+import PageHero from '../components/PageHero.astro';
+import Leaf from '../components/Leaf.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { contact, site, socials } from '../data/site';
+
+const pad = (n: number) => String(n).padStart(2, '0');
+// Missing contact details show as placeholders in local dev only.
+const dev = import.meta.env.DEV;
+const channels = [
+	site.email
+		? { label: 'Email', value: site.email, href: `mailto:${site.email}` }
+		: dev && { label: 'Email', value: 'TODO · add in src/data/site.ts' },
+	site.whatsapp
+		? { label: 'WhatsApp', value: `+${site.whatsapp}`, href: `https://wa.me/${site.whatsapp}`, external: true }
+		: dev && { label: 'WhatsApp', value: 'TODO · add in src/data/site.ts' },
+	...socials.map((s) => ({ label: s.label, value: new URL(s.href).host, href: s.href, external: true })),
+].filter(Boolean) as { label: string; value: string; href?: string; external?: boolean }[];
+---
+
+<Layout
+	title="Contact · Basilpot"
+	description="Start a project with Basilpot. Tell us about your idea and we will reply with honest next steps. Based in Pokhara, Nepal, working worldwide."
+>
+	<PageHero eyebrow="Contact" title="Tell us about your idea." accent="idea" intro={contact.promise} />
+
+	<Section space="sm" class="border-t border-line pb-[clamp(4.5rem,3rem+6vw,8.5rem)]" aria-label="Contact form and details">
+		<div class="grid gap-12 lg:grid-cols-12 lg:gap-10">
+			<div class="rounded-md border border-line bg-surface p-6 sm:p-10 lg:col-span-7" data-reveal>
+				<ContactForm />
+			</div>
+
+			<aside class="space-y-12 lg:col-span-5 lg:pl-6" aria-label="Other ways to reach us">
+				{
+					channels.length > 0 && (
+						<div data-reveal>
+							<h2 class="label text-muted">Reach us directly</h2>
+							<ul class="mt-5 divide-y divide-line border-y border-line">
+								{channels.map((c) => (
+									<li class="flex items-center justify-between gap-4 py-4">
+										<span class="label text-muted">{c.label}</span>
+										{c.href ? (
+											<a href={c.href} class="text-right font-medium underline decoration-line underline-offset-4 hover:decoration-accent" {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+												{c.value}
+												{c.external && <span class="sr-only"> (opens in a new tab)</span>}
+											</a>
+										) : (
+											<span class="label rounded-sm border border-dashed border-line px-2 py-1 text-muted">{c.value}</span>
+										)}
+									</li>
+								))}
+							</ul>
+						</div>
+					)
+				}
+
+				<div data-reveal style="--reveal-i:1">
+					<h2 class="label text-muted">Studio</h2>
+					<div class="mt-5 flex items-end justify-between gap-6 border-y border-line py-5">
+						<div>
+							<p class="flex items-center gap-2 text-h3">{site.location} <Leaf class="size-4 text-accent" /></p>
+							<p class="label mt-2 text-muted">Working worldwide · UTC+5:45</p>
+						</div>
+						<time data-clock-zone={site.timeZone} class="font-mono text-[clamp(1.75rem,1.4rem+1.4vw,2.5rem)] leading-none tabular-nums">--:--</time>
+					</div>
+				</div>
+
+				<div data-reveal style="--reveal-i:2">
+					<h2 class="label text-muted">What happens next</h2>
+					<ol class="mt-5 space-y-6">
+						{
+							contact.nextSteps.map((s, i) => (
+								<li class="grid grid-cols-[2.375rem_1fr] gap-4">
+									<span class="label flex size-[2.375rem] items-center justify-center rounded-full border border-line text-accent">{pad(i + 1)}</span>
+									<div class="pt-1.5">
+										<p class="font-semibold">{s.title}</p>
+										<p class="mt-1 text-[0.9375rem] text-muted">{s.text}</p>
+									</div>
+								</li>
+							))
+						}
+					</ol>
+				</div>
+			</aside>
+		</div>
+	</Section>
+</Layout>
+
+<script>
+	import '../scripts/clock';
+</script>

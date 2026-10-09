@@ -26,6 +26,11 @@ jobs:
         uses: withastro/action@v3
         with:
           node-version: 24
+        env:
+          # Contact form endpoint (Formspree or Web3Forms). Set in
+          # Settings → Secrets and variables → Actions → Variables.
+          PUBLIC_FORM_ENDPOINT: ${{ vars.PUBLIC_FORM_ENDPOINT }}
+          PUBLIC_FORM_ACCESS_KEY: ${{ vars.PUBLIC_FORM_ACCESS_KEY }}
 
   deploy:
     needs: build

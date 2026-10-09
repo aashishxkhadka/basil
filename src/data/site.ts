@@ -7,6 +7,27 @@ export const site = {
 	location: 'Pokhara, Nepal',
 	// TODO: confirm the public contact email.
 	email: '',
+	// TODO: WhatsApp number in international format without + or spaces, e.g. '9779800000000'.
+	whatsapp: '',
+	timeZone: 'Asia/Kathmandu',
+};
+
+// Contact page. TODO: owner to confirm the reply promise (spec suggests
+// "We reply within 24 hours") and the budget ranges.
+export const contact = {
+	promise: 'We read every message and reply personally.',
+	services: [
+		{ value: 'development', label: 'Development' },
+		{ value: 'design', label: 'Design' },
+		{ value: 'marketing', label: 'Digital Marketing' },
+		{ value: 'not-sure', label: 'Not sure yet' },
+	],
+	budgets: ['Under $2,000', '$2,000 – $5,000', '$5,000 – $15,000', '$15,000+', 'Not sure yet'],
+	nextSteps: [
+		{ title: 'We reply', text: 'A real person reads your message and answers with questions or next steps.' },
+		{ title: 'A short call', text: 'Thirty minutes to understand your goals, users and timeline.' },
+		{ title: 'A clear proposal', text: 'Scope, timeline and price in plain words. No obligation.' },
+	],
 };
 
 export const mainNav = [
