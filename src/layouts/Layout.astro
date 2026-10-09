@@ -106,6 +106,27 @@ const organization = {
 					{ rootMargin: '0px 0px -8% 0px' },
 				);
 				items.forEach((el) => io.observe(el));
+
+				// Backup: if the observer is delayed or never fires (some embedded or
+				// throttled views), reveal whatever is on screen on scroll/resize, and
+				// as a last resort reveal everything after a few seconds.
+				let queued = false;
+				const sweep = () => {
+					queued = false;
+					const limit = innerHeight * 0.95;
+					items.forEach((el) => {
+						if (!el.classList.contains('is-in') && el.getBoundingClientRect().top < limit) el.classList.add('is-in');
+					});
+				};
+				const queue = () => {
+					if (!queued) {
+						queued = true;
+						requestAnimationFrame(sweep);
+					}
+				};
+				addEventListener('scroll', queue, { passive: true });
+				addEventListener('resize', queue);
+				setTimeout(() => items.forEach((el) => el.classList.add('is-in')), 4000);
 			}
 		</script>
 	</body>

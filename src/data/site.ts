@@ -5,8 +5,8 @@ export const site = {
 	name: 'Basilpot',
 	tagline: 'Ideas, grown into products.',
 	location: 'Pokhara, Nepal',
-	// TODO: confirm the public contact email.
-	email: '',
+	// From basilpot.com (owner's existing site).
+	email: 'seed@basilpot.com',
 	// TODO: WhatsApp number in international format without + or spaces, e.g. '9779800000000'.
 	whatsapp: '',
 	timeZone: 'Asia/Kathmandu',

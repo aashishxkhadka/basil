@@ -17,9 +17,11 @@ const work = defineCollection({
 			services: z.array(z.enum(['development', 'design', 'marketing'])).min(1),
 			/** One-line result for cards. Real outcomes only. */
 			summary: z.string(),
-			challenge: z.string(),
-			approach: z.string(),
-			result: z.string(),
+			/** Story parts. Each is optional; only filled ones are shown. */
+			about: z.string().optional(),
+			challenge: z.string().optional(),
+			approach: z.string().optional(),
+			result: z.string().optional(),
 			cover: image().optional(),
 			coverAlt: z.string().optional(),
 			gallery: z.array(z.object({ src: image(), alt: z.string() })).default([]),

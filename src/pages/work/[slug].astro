@@ -27,10 +27,11 @@ const { data } = entry;
 const { Content } = await render(entry);
 
 const story = [
+	{ label: 'About the client', text: data.about },
 	{ label: 'The challenge', text: data.challenge },
 	{ label: 'What we did', text: data.approach },
 	{ label: 'The result', text: data.result, highlight: true },
-];
+].filter((part): part is { label: string; text: string; highlight?: boolean } => Boolean(part.text));
 const meta = [
 	{ label: 'Client', value: data.client },
 	{ label: 'Industry', value: data.industry },
@@ -131,9 +132,13 @@ const meta = [
 			)
 		}
 
-		<div class="prose-basil mt-[clamp(3rem,2rem+4vw,6rem)] max-w-3xl">
-			<Content />
-		</div>
+		{
+			entry.body?.trim() && (
+				<div class="prose-basil mt-[clamp(3rem,2rem+4vw,6rem)] max-w-3xl">
+					<Content />
+				</div>
+			)
+		}
 
 		{
 			data.gallery.length > 0 && (

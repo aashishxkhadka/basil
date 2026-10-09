@@ -1,0 +1,41 @@
+---
+// Client logos on their own tiles (Paper, or Ink for logos made for dark).
+// `grid` for a full wall, `marquee` for a slow strip.
+import { Image } from 'astro:assets';
+import { clients } from '../data/clients';
+
+interface Props {
+	variant?: 'grid' | 'marquee';
+}
+const { variant = 'grid' } = Astro.props;
+
+const tile = (dark?: boolean) =>
+	[
+		'flex items-center justify-center rounded-md border px-3',
+		dark ? 'border-[color-mix(in_oklab,var(--color-paper)_16%,var(--color-ink))] bg-ink' : 'border-[color-mix(in_oklab,var(--color-ink)_10%,var(--color-paper))] bg-paper',
+	].join(' ');
+---
+
+{
+	variant === 'grid' ? (
+		<ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+			{clients.map((c, i) => (
+				<li class:list={[tile(c.dark), 'group aspect-[5/3] transition-transform duration-300 ease-out-soft hover:-translate-y-1']} data-reveal style={`--reveal-i:${i % 6}`}>
+					<Image src={c.logo} alt={c.name} widths={[240, 400]} sizes="(min-width: 1280px) 200px, (min-width: 640px) 30vw, 45vw" class="max-h-[88%] max-w-full w-auto object-contain" loading="lazy" />
+				</li>
+			))}
+		</ul>
+	) : (
+		<div class="marquee overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)]">
+			<ul class="marquee-track flex w-max gap-3" aria-label="Client logos">
+				{[0, 1].map((copy) =>
+					clients.map((c) => (
+						<li class:list={[tile(c.dark), 'h-20 w-44 shrink-0 sm:h-24 sm:w-52']} aria-hidden={copy === 1 ? 'true' : undefined}>
+							<Image src={c.logo} alt={copy === 1 ? '' : c.name} widths={[200, 400]} sizes="208px" class="max-h-[88%] max-w-full w-auto object-contain" loading="lazy" />
+						</li>
+					)),
+				)}
+			</ul>
+		</div>
+	)
+}

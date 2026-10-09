@@ -3,6 +3,7 @@
 # The file name becomes the URL: /work/acme-cafe
 # Keep `draft: true` while writing; set it to false to publish.
 # Only real clients, real numbers and real quotes (with permission).
+# about / challenge / approach / result are all optional: leave out what you do not know.
 
 client: "TEMPLATE · Client name"
 title: "TEMPLATE · One-line headline for the project"
@@ -11,6 +12,7 @@ location: "Pokhara, Nepal"
 year: 2026
 services: [development, design] # any of: development, design, marketing
 summary: "TEMPLATE · One-line result shown on cards. Use a real outcome."
+about: "TEMPLATE · Who the client is, in one or two sentences."
 challenge: "TEMPLATE · What problem did the client have? Two or three short sentences."
 approach: "TEMPLATE · What did Basilpot do? Plan, design, build, launch. Keep it concrete."
 result: "TEMPLATE · What changed? Measurable outcomes if the client agrees to share them."

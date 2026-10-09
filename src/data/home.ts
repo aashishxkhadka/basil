@@ -9,18 +9,6 @@ export const hero = {
 		'We take businesses from first idea to steady growth. Strategy, design, engineering and AI automation, under one roof.',
 };
 
-export const capabilities = [
-	'AI automation',
-	'Product strategy',
-	'Web apps',
-	'SaaS & MVPs',
-	'Brand identity',
-	'UI/UX design',
-	'SEO',
-	'Growth marketing',
-	'Integrations',
-];
-
 export const statement =
 	'We are a small studio in the foothills of the Himalaya, building for clients everywhere. We turn rough ideas into products people actually use, then stay to help them grow. Fewer handoffs, clearer decisions, better work.';
 

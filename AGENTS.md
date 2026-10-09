@@ -83,15 +83,17 @@ Pattern: anything waiting on real content (cases, team, contact details) is
 shown as a placeholder in local dev only and hidden on the live build.
 
 Open TODOs waiting on the owner (never invent these):
-- Contact email, WhatsApp number, social links (`src/data/site.ts`)
+- WhatsApp number, social links (`src/data/site.ts`). Email is seed@basilpot.com (from basilpot.com).
 - Confirm reply promise ("within 24 hours"?) and budget ranges (`contact` in site.ts)
 - Form service: create Formspree/Web3Forms form, set repo Actions variable
   PUBLIC_FORM_ENDPOINT (+ PUBLIC_FORM_ACCESS_KEY for Web3Forms)
 - Product statuses, Launchbunch and Tripflow URLs; review product copy (`src/data/products.ts`)
 - Confirm FAQ answers on timelines, pricing, support (`src/data/faq.ts`)
 - Story details, especially OBSYD; team names/roles/photos (`src/data/about.ts`)
-- Real case studies (copy `src/content/work/template.md`)
-- Real client logos (proof strip removed until they exist)
+- More detail/outcomes for the 3 case studies (Hex Healing Hub, Hope Fertility, SADP Nepal,
+  sourced from basilpot.com/clients); new ones: copy `src/content/work/template.md`
+- Names for 2 unnamed client logos (`src/data/clients.ts`)
+- Client logos: 22 real logos from basilpot.com/media-and-marketing are in use (home strip + Work wall)
 - OG image says basilpot.com; regenerate if the domain differs
 
 Deployment:

@@ -112,6 +112,8 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
 		new IntersectionObserver(([entry]) => {
 			header.toggleAttribute('data-scrolled', !entry.isIntersecting);
 		}).observe(sentinel);
+		// Backup in case the observer is delayed: keep the state in sync on scroll.
+		addEventListener('scroll', () => header.toggleAttribute('data-scrolled', scrollY > 8), { passive: true });
 	}
 
 	// Mobile menu.

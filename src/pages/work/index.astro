@@ -6,6 +6,9 @@ import Button from '../../components/Button.astro';
 import Leaf from '../../components/Leaf.astro';
 import CaseStudyCard from '../../components/CaseStudyCard.astro';
 import CTABand from '../../components/CTABand.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import ClientLogos from '../../components/ClientLogos.astro';
+import { clients, mediaIntro } from '../../data/clients';
 import { getWork, serviceLabels } from '../../lib/work';
 
 const work = await getWork();
@@ -72,6 +75,20 @@ const filters = (Object.keys(serviceLabels) as (keyof typeof serviceLabels)[])
 				</div>
 			)
 		}
+	</Section>
+
+	<!-- Media and marketing clients (logo wall). -->
+	<Section id="media-and-marketing" class="border-t border-line" aria-labelledby="media-title">
+		<div class="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-10" data-reveal>
+			<div class="lg:col-span-7">
+				<Eyebrow>Media and marketing</Eyebrow>
+				<h2 id="media-title" class="mt-5 text-h2">{clients.length} brands, many markets.</h2>
+			</div>
+			<p class="max-w-md text-lead text-muted lg:col-span-5">{mediaIntro}</p>
+		</div>
+		<div class="mt-14">
+			<ClientLogos />
+		</div>
 	</Section>
 
 	<CTABand title="Want to be our next case study?" accent="Let’s grow it." />
