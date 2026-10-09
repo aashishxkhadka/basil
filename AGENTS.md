@@ -101,8 +101,8 @@ Open TODOs waiting on the owner (never invent these):
 
 Deployment:
 - Repo: github.com/aashishxkhadka/basil (public). Push over SSH works from this Mac.
-- GitHub Pages via `.github/workflows/deploy.yml`; owner still needs to set
-  Settings → Pages → Source: GitHub Actions. Live URL: aashishxkhadka.github.io/basil/
+- GitHub Pages via `.github/workflows/deploy.yml` (Source: GitHub Actions, enabled
+  2026-10-09). Every push to main publishes to https://aashishxkhadka.github.io/basil/
 - `base: '/basil'` in astro.config.mjs. Always link internal paths through
   `withBase()` from `src/lib/url.ts`. Local dev URL: http://localhost:4321/basil/
 - After adding new files or changing the content schema, restart the dev server; if
