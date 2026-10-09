@@ -9,6 +9,11 @@ export const site = {
 	email: 'seed@basilpot.com',
 	// TODO: WhatsApp number in international format without + or spaces, e.g. '9779800000000'.
 	whatsapp: '',
+	// Published on basilpot.com/about for project enquiries.
+	phones: [
+		{ label: 'Call Aashish', number: '+9779805106358', display: '+977 980 510 6358' },
+		{ label: 'Call Tej', number: '+9779841328947', display: '+977 984 132 8947' },
+	],
 	timeZone: 'Asia/Kathmandu',
 };
 

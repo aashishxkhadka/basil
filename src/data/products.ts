@@ -1,12 +1,14 @@
 // Basilpot's own products. Used by Home, the footer and the Products page.
-// TODO: owner to review descriptions (written from the site spec) and set
-// each `status` once confirmed. No status tag is shown until it is set.
+// Descriptions come from each live product site (checked 2026-10-09).
+// TODO: owner to set each `status` once confirmed; no tag shows until set.
+// TODO: spec mentions "Tripflow (formerly Travelfast)" as a B2B travel
+// platform, but travelfast.app is currently vehicle rental. Confirm.
 
 export type ProductStatus = 'Live' | 'Beta' | 'Coming soon';
 
 export type Product = {
 	/** Anchor id on /products and the illustration in ProductVisual. */
-	slug: 'links' | 'reviewpot' | 'launchbunch' | 'tripflow' | 'hqnepal';
+	slug: 'links' | 'reviewpot' | 'launchbunch' | 'travelfast' | 'hqnepal';
 	name: string;
 	/** Short category label. */
 	category: string;
@@ -30,9 +32,9 @@ export const products: Product[] = [
 		slug: 'links',
 		name: 'LINKS by Basilpot',
 		category: 'Link in bio',
-		description: 'One simple link for everything you share.',
+		description: 'One simple page for everything you share, with useful analytics.',
 		details:
-			'One clean page for every link that matters: socials, shop, bookings and latest work. Put a single link in your bio and keep everything else in one place.',
+			'One page for every link that matters: socials, shop, bookings and latest work. Share a single link in your bio and see what people actually click.',
 		forWho: 'Creators, freelancers and small businesses who share a lot online.',
 		url: 'https://links.basilpot.com',
 	},
@@ -40,42 +42,42 @@ export const products: Product[] = [
 		slug: 'reviewpot',
 		name: 'Reviewpot',
 		category: 'Reviews',
-		description: 'Collect and show reviews for local businesses, anywhere.',
+		description: 'One scan turns a good experience into an editable review.',
 		details:
-			'Helps local businesses ask happy customers for reviews and show them where new customers are deciding. Simple for the business, simple for the reviewer.',
+			'One QR code and link point customers to Google, Tripadvisor and any other review site. A simple rating flow drafts the review for them, and analytics show which platforms bring reviews.',
 		forWho: 'Local businesses anywhere: cafés, clinics, salons, shops and services.',
 		url: 'https://review.basilpot.com',
 	},
 	{
-		// TODO: Launchbunch URL.
 		slug: 'launchbunch',
 		name: 'Launchbunch',
-		category: 'Online visibility',
-		description: 'Help businesses get seen online.',
+		category: 'Reviews & discovery',
+		description: 'Find trusted businesses through honest reviews from real people.',
 		details:
-			'Gets businesses found online with the basics done properly: the right listings, a solid profile and search that brings people to the door.',
-		forWho: 'Businesses that are hard to find online, or not online at all yet.',
+			'A community-driven platform for discovering and reviewing businesses worldwide. Trust points and credibility badges help people find the most trusted voices.',
+		forWho: 'People looking for great places and services, and the businesses that serve them.',
+		url: 'https://launchbunch.com',
 	},
 	{
-		// TODO: Tripflow URL.
-		slug: 'tripflow',
-		name: 'Tripflow',
-		category: 'Travel software',
-		description: 'The all-in-one platform for travel businesses.',
+		slug: 'travelfast',
+		name: 'Travelfast',
+		category: 'Vehicle rental',
+		description: 'Rent any vehicle on wheels in Nepal.',
 		details:
-			'One platform to run a travel business. Think Shopify for travel: list trips, take bookings and manage operations in one place.',
-		forWho: 'Travel agencies, trekking companies and tour operators.',
-		note: 'Formerly Travelfast',
+			'Rent cars, vans, motorcycles, bikes and trucks from verified local hosts across Nepal, with transparent daily pricing and secure bookings.',
+		forWho: 'Travellers getting around Nepal, and local hosts with vehicles to rent.',
+		url: 'https://travelfast.app',
 	},
 	{
 		slug: 'hqnepal',
 		name: 'HQ Nepal',
-		category: 'Adventure marketplace',
-		description: 'Find and book treks and adventures across Nepal.',
+		category: 'Travel marketplace',
+		description: 'A travel marketplace demo for treks and adventures.',
 		details:
-			'A marketplace for treks and adventures across Nepal. Explore routes, compare trusted operators and plan the trip in one place.',
-		forWho: 'Travellers planning treks and adventures in Nepal, and the local operators who guide them.',
+			'A working demo of our travel website system: structured trips and day-by-day itineraries, destinations, travel guides and an enquiry flow for every trip.',
+		forWho: 'Tour operators who want a travel website they can manage themselves.',
 		url: 'https://hqnepal.com',
 		linkLabel: 'View the demo',
+		note: 'Demo',
 	},
 ];

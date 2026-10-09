@@ -16,6 +16,7 @@ const channels = [
 	site.whatsapp
 		? { label: 'WhatsApp', value: `+${site.whatsapp}`, href: `https://wa.me/${site.whatsapp}`, external: true }
 		: dev && { label: 'WhatsApp', value: 'TODO · add in src/data/site.ts' },
+	...site.phones.map((p) => ({ label: p.label, value: p.display, href: `tel:${p.number}` })),
 	...socials.map((s) => ({ label: s.label, value: new URL(s.href).host, href: s.href, external: true })),
 ].filter(Boolean) as { label: string; value: string; href?: string; external?: boolean }[];
 ---

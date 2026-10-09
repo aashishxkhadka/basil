@@ -83,17 +83,20 @@ Pattern: anything waiting on real content (cases, team, contact details) is
 shown as a placeholder in local dev only and hidden on the live build.
 
 Open TODOs waiting on the owner (never invent these):
-- WhatsApp number, social links (`src/data/site.ts`). Email is seed@basilpot.com (from basilpot.com).
+- WhatsApp number, social links (`src/data/site.ts`). Email seed@basilpot.com and phones come from basilpot.com.
 - Confirm reply promise ("within 24 hours"?) and budget ranges (`contact` in site.ts)
 - Form service: create Formspree/Web3Forms form, set repo Actions variable
   PUBLIC_FORM_ENDPOINT (+ PUBLIC_FORM_ACCESS_KEY for Web3Forms)
-- Product statuses, Launchbunch and Tripflow URLs; review product copy (`src/data/products.ts`)
+- Product statuses (`src/data/products.ts`). Tripflow vs Travelfast: spec says Tripflow (formerly
+  Travelfast) is a B2B travel platform, but travelfast.app is vehicle rental. Site shows Travelfast as live.
 - Confirm FAQ answers on timelines, pricing, support (`src/data/faq.ts`)
-- Story details, especially OBSYD; team names/roles/photos (`src/data/about.ts`)
+- Story details, especially OBSYD; team photos (team = Aashish Khadka, Human Lead; Tej Kshetri, Tech Lead)
+- Confirm Pari Ghar is client work (currently under Client work)
 - More detail/outcomes for the 3 case studies (Hex Healing Hub, Hope Fertility, SADP Nepal,
   sourced from basilpot.com/clients); new ones: copy `src/content/work/template.md`
 - Names for 2 unnamed client logos (`src/data/clients.ts`)
-- Client logos: 22 real logos from basilpot.com/media-and-marketing are in use (home strip + Work wall)
+- Client logos: 22 real logos from basilpot.com/media-and-marketing on the Work page only.
+  Owner removed the home logo strip (not aesthetic); keep Home clean. Studio has worked with 50+ brands.
 - OG image says basilpot.com; regenerate if the domain differs
 
 Deployment:
@@ -102,8 +105,8 @@ Deployment:
   Settings → Pages → Source: GitHub Actions. Live URL: aashishxkhadka.github.io/basil/
 - `base: '/basil'` in astro.config.mjs. Always link internal paths through
   `withBase()` from `src/lib/url.ts`. Local dev URL: http://localhost:4321/basil/
-- After adding new files (content config, components), restart the dev server
-  if styles or routes look stale.
+- After adding new files or changing the content schema, restart the dev server; if
+  content looks stale, delete `.astro/` and `node_modules/.astro/` first.
 - Owner's network sometimes resets the first request to github.com; just retry.
 
 ## Development

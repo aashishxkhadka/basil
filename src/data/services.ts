@@ -25,18 +25,21 @@ export const services: Service[] = [
 		id: 'development',
 		title: 'Development',
 		promise: 'Websites, apps and automation that work on day one and keep working.',
-		items: ['Websites and web apps', 'SaaS and MVPs', 'AI automation', 'Integrations'],
+		items: ['Business, travel and ecommerce websites', 'Web apps, SaaS and MVPs', 'AI automation', 'Migration and maintenance'],
 		href: '/services#development',
 		summary:
 			'We design the system, write the code and ship it. Clean, fast and documented, with AI and automation where they save real time.',
 		forWho:
 			'Founders testing an idea, businesses stuck on spreadsheets and manual work, and teams that need a reliable product partner.',
 		included: [
-			{ title: 'Websites', text: 'Fast, accessible sites your team can update without us.' },
+			{ title: 'Business websites', text: 'Custom sites shaped around your content and the people you need to reach.' },
+			{ title: 'Travel websites', text: 'Trips, day-by-day itineraries, destinations and enquiries, on our travel system.' },
+			{ title: 'Ecommerce', text: 'Custom online stores on Tasche, our ecommerce system, designed around your brand.' },
 			{ title: 'Web apps', text: 'Dashboards, portals and internal tools shaped around how you work.' },
 			{ title: 'SaaS and MVPs', text: 'Scoped to launch quickly, built to grow past version one.' },
 			{ title: 'AI automation', text: 'Assistants and workflows that take repetitive work off your plate.' },
 			{ title: 'Integrations', text: 'Payments, CRMs, APIs and the tools you already use, connected.' },
+			{ title: 'Migration and maintenance', text: 'Rebuilds that keep what works and plan redirects, then ongoing care.' },
 		],
 		process: [
 			{ title: 'Scope', text: 'Goals, features and a fixed plan.' },

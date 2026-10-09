@@ -9,12 +9,25 @@ export const hero = {
 		'We take businesses from first idea to steady growth. Strategy, design, engineering and AI automation, under one roof.',
 };
 
+export const capabilities = [
+	'AI automation',
+	'Product strategy',
+	'Web apps',
+	'Travel websites',
+	'Ecommerce',
+	'SaaS & MVPs',
+	'Brand identity',
+	'UI/UX design',
+	'SEO',
+	'Growth marketing',
+];
+
 export const statement =
 	'We are a small studio in the foothills of the Himalaya, building for clients everywhere. We turn rough ideas into products people actually use, then stay to help them grow. Fewer handoffs, clearer decisions, better work.';
 
 export const facts = [
 	{ label: 'Based in', value: 'Pokhara, Nepal' },
-	{ label: 'Working with', value: 'Teams worldwide, remote-first' },
+	{ label: 'Brands supported', value: '50+ across Nepal, Latin America and beyond' },
 	{ label: 'Under one roof', value: 'Strategy, design, code, growth' },
 ];
 

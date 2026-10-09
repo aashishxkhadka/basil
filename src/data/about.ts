@@ -1,6 +1,5 @@
 // About page content.
-// TODO: owner to refine the story chapters (especially what OBSYD did) and
-// fill in the team. Team cards with `draft: true` show in local dev only.
+// TODO: owner to refine the story chapters (especially what OBSYD did).
 
 export const story = [
 	{
@@ -23,13 +22,22 @@ export const story = [
 export type TeamMember = {
 	name: string;
 	role: string;
+	bio?: string;
 	/** Path under src/assets, added when photos are ready. */
 	photo?: string;
 	draft?: boolean;
 };
 
+// Source: basilpot.com/about. TODO: add photos when ready.
 export const team: TeamMember[] = [
-	{ name: 'TODO · Name', role: 'TODO · Role', draft: true },
-	{ name: 'TODO · Name', role: 'TODO · Role', draft: true },
-	{ name: 'TODO · Name', role: 'TODO · Role', draft: true },
+	{
+		name: 'Aashish Khadka',
+		role: 'Human Lead',
+		bio: 'Leads the people-facing side of Basilpot: client relationships, communication, partnerships and day-to-day operations. He keeps our work grounded in actual people, actual businesses and actual problems.',
+	},
+	{
+		name: 'Tej Kshetri',
+		role: 'Tech Lead',
+		bio: 'Leads the technical direction of Basilpot and its products, across product engineering, architecture, infrastructure and design implementation. He keeps our systems maintainable and focused on solving the problem.',
+	},
 ];

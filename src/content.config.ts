@@ -8,6 +8,8 @@ const work = defineCollection({
 	loader: glob({ pattern: '**/*.md', base: './src/content/work' }),
 	schema: ({ image }) =>
 		z.object({
+			/** `client` work for others, or a `studio` project (our own product or demo). */
+			kind: z.enum(['client', 'studio']).default('client'),
 			client: z.string(),
 			/** Project headline, e.g. "A booking system that runs itself". */
 			title: z.string(),
