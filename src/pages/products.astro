@@ -1,0 +1,152 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+import PageHero from '../components/PageHero.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Button from '../components/Button.astro';
+import Leaf from '../components/Leaf.astro';
+import ProductVisual from '../components/ProductVisual.astro';
+import CTABand from '../components/CTABand.astro';
+import { products } from '../data/products';
+
+const pad = (n: number) => String(n).padStart(2, '0');
+const host = (url: string) => new URL(url).host;
+
+const reasons = [
+	{
+		title: 'We feel what clients feel',
+		text: 'Running our own products means we deal with real users, real bugs and real bills. That keeps our advice practical.',
+	},
+	{
+		title: 'Lessons go straight back',
+		text: 'Every pattern that works in our products, from onboarding to automation, ends up making client work better.',
+	},
+	{
+		title: 'We stay sharp',
+		text: 'Products are where we try new tools and AI first, so clients get what is proven, not what is trendy.',
+	},
+];
+---
+
+<Layout
+	title="Products · Basilpot"
+	description="Products built and run by Basilpot: LINKS by Basilpot, Reviewpot, Launchbunch, Tripflow and HQ Nepal."
+>
+	<PageHero
+		eyebrow="Products"
+		title="We build for clients. And for ourselves."
+		accent="ourselves"
+		intro="Our own products are proof we can ship, and they keep us honest. Here is what we are building and running from Pokhara."
+	>
+		<nav aria-label="Products on this page" class="fade-up mt-[clamp(3rem,2rem+4vw,5.5rem)]" style="--delay:0.5s">
+			<ul class="flex flex-wrap gap-2.5">
+				{
+					products.map((p, i) => (
+						<li>
+							<a
+								href={`#${p.slug}`}
+								class="group inline-flex items-center gap-3 rounded-pill border border-line bg-bg/60 py-2 pr-4 pl-3 transition-colors hover:border-accent"
+							>
+								<span class="label text-accent">{pad(i + 1)}</span>
+								<span class="text-[0.9375rem] font-medium">{p.name}</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+	</PageHero>
+
+	{
+		products.map((p, i) => {
+			const ink = i % 2 === 1;
+			const flip = i % 2 === 1;
+			return (
+				<Section
+					id={p.slug}
+					tone={ink ? 'ink' : undefined}
+					class="relative isolate overflow-clip border-t border-line"
+					aria-labelledby={`${p.slug}-title`}
+				>
+					{ink && (
+						<div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+							<div class="absolute inset-0 bg-glow" />
+							<div class="absolute inset-0 bg-grid" />
+						</div>
+					)}
+					<div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+						<!-- Showcase. TODO: swap for real screenshots via Astro <Image> when available. -->
+						<div class:list={['lg:col-span-7', flip && 'lg:order-2']} data-reveal>
+							<div class="card group relative aspect-square overflow-hidden sm:aspect-[4/3]">
+								<div class="absolute inset-0 bg-glow" />
+								<div class="absolute inset-0 bg-grid [mask-image:none] opacity-50" />
+								<ProductVisual slug={p.slug} size="lg" />
+								<span class="label absolute top-5 left-5 hidden text-muted sm:block">{pad(i + 1)} / {pad(products.length)}</span>
+							</div>
+						</div>
+
+						<div class:list={['lg:col-span-5', flip && 'lg:order-1']} data-reveal style="--reveal-i:1">
+							<p class="label flex items-center gap-2 text-accent">
+								<Leaf class="size-3" />
+								{p.category}
+							</p>
+							<h2 id={`${p.slug}-title`} class="mt-5 text-h1">
+								{p.name}
+							</h2>
+							<p class="label mt-3 text-muted">
+								{p.name.includes('by Basilpot') ? 'Made in Pokhara' : 'by Basilpot'}
+								{p.note && <span> · {p.note}</span>}
+							</p>
+							<p class="mt-7 text-lead">{p.details}</p>
+							<dl class="mt-8 grid gap-5 border-t border-line pt-6 sm:grid-cols-[8rem_1fr]">
+								<dt class="label pt-1 text-muted">For</dt>
+								<dd class="text-muted">{p.forWho}</dd>
+								{p.status && (
+									<>
+										<dt class="label pt-1 text-muted">Status</dt>
+										<dd>
+											<span class="label rounded-pill border border-accent/40 px-2.5 py-1 text-accent">{p.status}</span>
+										</dd>
+									</>
+								)}
+							</dl>
+							{p.url && (
+								<Button href={p.url} external class="mt-10">
+									{p.linkLabel ?? `Visit ${host(p.url)}`}
+									<svg class="size-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+										<path d="M5 11l6-6M6 5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+									</svg>
+								</Button>
+							)}
+						</div>
+					</div>
+				</Section>
+			);
+		})
+	}
+
+	<!-- Why we build our own -->
+	<Section aria-labelledby="why-own-title" class="border-t border-line">
+		<div class="max-w-3xl" data-reveal>
+			<Eyebrow>Why our own products</Eyebrow>
+			<h2 id="why-own-title" class="mt-5 text-h2">Building our own makes us better at building yours.</h2>
+		</div>
+		<ol class="mt-14 grid gap-px overflow-hidden rounded-md border border-line bg-line md:grid-cols-3">
+			{
+				reasons.map(({ title, text }, i) => (
+					<li class="bg-bg p-7 sm:p-8" data-reveal style={`--reveal-i:${i}`}>
+						<span class="label text-accent">{pad(i + 1)}</span>
+						<h3 class="mt-6 text-h3">{title}</h3>
+						<p class="mt-3 text-muted">{text}</p>
+					</li>
+				))
+			}
+		</ol>
+	</Section>
+
+	<CTABand
+		title="Got a product idea?"
+		accent="Let’s grow it together."
+		text="We help founders go from first sketch to a product people pay for. Tell us what you are building."
+	/>
+</Layout>

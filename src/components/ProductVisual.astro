@@ -5,12 +5,14 @@ import type { Product } from '../data/products';
 
 interface Props {
 	slug: Product['slug'];
+	/** `lg` scales the illustration up for full-width showcases. */
+	size?: 'md' | 'lg';
 }
-const { slug } = Astro.props;
+const { slug, size = 'md' } = Astro.props;
 const bar = 'h-2 rounded-pill bg-fg/12';
 ---
 
-<div class="pointer-events-none absolute inset-0 flex items-center justify-center p-8" aria-hidden="true">
+<div class:list={['pointer-events-none absolute inset-0 flex items-center justify-center p-8', size === 'lg' && 'sm:*:scale-[1.2] lg:*:scale-[1.3]']} aria-hidden="true">
 	{
 		slug === 'links' && (
 			<div class="w-44 rounded-[1.75rem] border border-line bg-bg p-4 pt-6 shadow-2xl shadow-black/40 transition-transform duration-700 ease-out-soft group-hover:-translate-y-2">
